@@ -212,12 +212,12 @@ export type DynamoDBClient = {
 /**
  * Execute DynamoDB command
  */
-async function executeCommand(
+const executeCommand = async (
   config: ClientConfig,
   deps: ClientDependencies,
   command: string,
   payload: Record<string, unknown>,
-): Promise<unknown> {
+): Promise<unknown> => {
   const body = JSON.stringify(payload);
   const target = `DynamoDB_20120810.${command}`;
 
@@ -244,21 +244,21 @@ async function executeCommand(
 
   const json = await res.json();
   return json;
-}
+};
 
 /**
  * Generate client method from command definition
  */
-function createCommandMethod<TInput, TOutput>(
+const createCommandMethod = <TInput, TOutput>(
   commandDef: CommandDefinition<string, TInput, TOutput>,
   config: ClientConfig,
   deps: ClientDependencies,
-): (input: TInput) => Promise<TOutput> {
+): ((input: TInput) => Promise<TOutput>) => {
   return async (input: TInput): Promise<TOutput> => {
     const result = await executeCommand(config, deps, commandDef.name, input as Record<string, unknown>);
     return result as TOutput;
   };
-}
+};
 
 // =====================
 // Client creation
@@ -267,10 +267,10 @@ function createCommandMethod<TInput, TOutput>(
 /**
  * Create DynamoDB client
  */
-export function createClient(
+export const createClient = (
   config: ClientConfig,
   deps: ClientDependencies,
-): DynamoDBClient {
+): DynamoDBClient => {
   return {
     // Table operations
     listTables: createCommandMethod(listTablesCommand, config, deps),
@@ -361,4 +361,4 @@ export function createClient(
     describeEndpoints: createCommandMethod(describeEndpointsCommand, config, deps),
     describeLimits: createCommandMethod(describeLimitsCommand, config, deps),
   };
-}
+};

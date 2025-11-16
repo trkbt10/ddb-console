@@ -29,9 +29,9 @@ export type CommandOutput<T> = T extends CommandDefinition<string, unknown, infe
 /**
  * Command definition helper function
  */
-export function defineCommand<TName extends string, TInput, TOutput>(
+export const defineCommand = <TName extends string, TInput, TOutput>(
   name: TName,
-): CommandDefinition<TName, TInput, TOutput> {
+): CommandDefinition<TName, TInput, TOutput> => {
   return {
     name,
     // eslint-disable-next-line custom/no-as-outside-guard -- Type-level placeholder for command input/output types
@@ -39,7 +39,7 @@ export function defineCommand<TName extends string, TInput, TOutput>(
     // eslint-disable-next-line custom/no-as-outside-guard -- Type-level placeholder for command input/output types
     _output: undefined as unknown as TOutput,
   };
-}
+};
 
 // =====================
 // Case conversion utilities
@@ -48,16 +48,16 @@ export function defineCommand<TName extends string, TInput, TOutput>(
 /**
  * Convert UpperCamelCase to lowerCamelCase
  */
-export function upperCamelToLowerCamel(str: string): string {
+export const upperCamelToLowerCamel = (str: string): string => {
   return str.charAt(0).toLowerCase() + str.slice(1);
-}
+};
 
 /**
  * Convert lowerCamelCase to UpperCamelCase
  */
-export function lowerCamelToUpperCamel(str: string): string {
+export const lowerCamelToUpperCamel = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);
-}
+};
 
 /**
  * Convert UpperCamelCase to lowerCamelCase (type level)

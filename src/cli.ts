@@ -10,7 +10,7 @@ import { createClient } from "./dynamodb/index";
 // Helper functions
 // =====================
 
-async function listTablesHandler(region: string): Promise<void> {
+const listTablesHandler = async (region: string): Promise<void> => {
   const credentials = getCredentialsFromEnv();
   const endpoint = getEndpointFromEnv();
   const client = createClient({ region, credentials, endpoint });
@@ -26,7 +26,7 @@ async function listTablesHandler(region: string): Promise<void> {
     console.log(`  - ${tableName}`);
   }
   console.log(`\nTotal: ${result.TableNames.length} tables`);
-}
+};
 
 // =====================
 // CLI definition

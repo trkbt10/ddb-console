@@ -7,7 +7,7 @@ import type { AttributeValue } from "../context/record-item";
 /**
  * Convert DynamoDB AttributeValue format to JavaScript value
  */
-export function unmarshall(attr: AttributeValue): unknown {
+export const unmarshall = (attr: AttributeValue): unknown => {
   if ("S" in attr) {
     return attr.S;
   }
@@ -49,17 +49,17 @@ export function unmarshall(attr: AttributeValue): unknown {
   }
 
   throw new Error(`Unknown AttributeValue type: ${JSON.stringify(attr)}`);
-}
+};
 
 /**
  * Convert DynamoDB Item (Map) to JavaScript object
  */
-export function unmarshallItem(
+export const unmarshallItem = (
   item: Record<string, AttributeValue>,
-): Record<string, unknown> {
+): Record<string, unknown> => {
   const result: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(item)) {
     result[key] = unmarshall(value);
   }
   return result;
-}
+};

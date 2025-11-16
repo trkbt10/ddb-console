@@ -12,7 +12,7 @@ export type AWSCredentials = {
 /**
  * Get AWS credentials from environment variables
  */
-export function getCredentialsFromEnv(): AWSCredentials {
+export const getCredentialsFromEnv = (): AWSCredentials => {
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
   const sessionToken = process.env.AWS_SESSION_TOKEN;
@@ -28,11 +28,11 @@ export function getCredentialsFromEnv(): AWSCredentials {
     secretAccessKey,
     sessionToken,
   };
-}
+};
 
 /**
  * Get DynamoDB endpoint from environment variables
  */
-export function getEndpointFromEnv(): string | undefined {
+export const getEndpointFromEnv = (): string | undefined => {
   return process.env.DYNAMODB_ENDPOINT;
-}
+};

@@ -33,7 +33,7 @@ export type CreateClientOptions = {
 /**
  * Create DynamoDB client
  */
-export function createClient(options: CreateClientOptions): DynamoDBClient {
+export const createClient = (options: CreateClientOptions): DynamoDBClient => {
   const { region, credentials, endpoint: customEndpoint, dependencies } = options;
 
   const url = resolveEndpointAndHost(region, customEndpoint);
@@ -66,6 +66,6 @@ export function createClient(options: CreateClientOptions): DynamoDBClient {
   };
 
   return createDynamoDBClient(config, finalDeps);
-}
+};
 
 export type { DynamoDBClient } from "./client";

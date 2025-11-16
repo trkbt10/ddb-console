@@ -27,11 +27,11 @@ export type DynamoDBError = Error & DynamoDBErrorProperties;
 /**
  * Create DynamoDB error instance
  */
-export function createDynamoDBError(
+export const createDynamoDBError = (
   errorName: string,
   message: string,
   metadata: ErrorMetadata,
-): DynamoDBError {
+): DynamoDBError => {
   const error = new Error(message) as DynamoDBError;
   error.name = errorName;
   error.__type = `com.amazonaws.dynamodb.v20120810#${errorName}`;
@@ -44,7 +44,7 @@ export function createDynamoDBError(
   }
 
   return error;
-}
+};
 
 /**
  * DynamoDB error factory function type
@@ -54,12 +54,12 @@ export type DynamoDBErrorFactory = (message: string) => DynamoDBError;
 /**
  * Helper function to define DynamoDB error factory
  */
-export function defineError<TName extends string>(
+export const defineError = <TName extends string>(
   name: TName,
   metadata: ErrorMetadata,
-): DynamoDBErrorFactory {
+): DynamoDBErrorFactory => {
   return (message: string) => createDynamoDBError(name, message, metadata);
-}
+};
 
 /**
  * DynamoDB error class constructor type
@@ -69,10 +69,10 @@ export type DynamoDBErrorClass = new (message: string) => DynamoDBError;
 /**
  * Helper function to define DynamoDB error class for instanceof checks
  */
-export function defineErrorClass<TName extends string>(
+export const defineErrorClass = <TName extends string>(
   name: TName,
   metadata: ErrorMetadata,
-): DynamoDBErrorClass {
+): DynamoDBErrorClass => {
   return class extends Error implements DynamoDBErrorProperties {
     readonly __type: string;
     readonly httpStatusCode: number;
@@ -91,7 +91,7 @@ export function defineErrorClass<TName extends string>(
       }
     }
   } as DynamoDBErrorClass;
-}
+};
 
 /**
  * Parse DynamoDB error response
@@ -104,10 +104,10 @@ export type DynamoDBErrorResponse = {
 /**
  * Extract error name from __type field
  */
-export function extractErrorName(typeField: string): string {
+export const extractErrorName = (typeField: string): string => {
   const parts = typeField.split("#");
   if (parts.length === 2) {
     return parts[1];
   }
   return typeField;
-}
+};

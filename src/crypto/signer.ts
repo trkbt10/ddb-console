@@ -35,20 +35,20 @@ const joinLines = (...lines: string[]): string => lines.join("\n");
 /**
  * Calculate SHA-256 hash and return as hex string
  */
-async function sha256Hex(data: string): Promise<string> {
+const sha256Hex = async (data: string): Promise<string> => {
   const encoder = new TextEncoder();
   const dataBuffer = encoder.encode(data);
   const hashBuffer = await crypto.subtle.digest("SHA-256", dataBuffer);
   return bufferToHex(hashBuffer);
-}
+};
 
 /**
  * Calculate HMAC-SHA256 and return as ArrayBuffer
  */
-async function hmac(
+const hmac = async (
   key: ArrayBuffer | string,
   data: string,
-): Promise<ArrayBuffer> {
+): Promise<ArrayBuffer> => {
   const encoder = new TextEncoder();
   const dataBuffer = encoder.encode(data);
 
@@ -63,33 +63,33 @@ async function hmac(
   );
 
   return await crypto.subtle.sign("HMAC", cryptoKey, dataBuffer);
-}
+};
 
 /**
  * Calculate HMAC-SHA256 and return as hex string
  */
-async function hmacHex(
+const hmacHex = async (
   key: ArrayBuffer | string,
   data: string,
-): Promise<string> {
+): Promise<string> => {
   const result = await hmac(key, data);
   return bufferToHex(result);
-}
+};
 
 /**
  * Convert ArrayBuffer to hex string
  */
-function bufferToHex(buffer: ArrayBuffer): string {
+const bufferToHex = (buffer: ArrayBuffer): string => {
   const byteArray = new Uint8Array(buffer);
   return Array.from(byteArray)
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
-}
+};
 
 /**
  * Generate UTC date information
  */
-export function getAmzDates(date = new Date()): AmzDates {
+export const getAmzDates = (date = new Date()): AmzDates => {
   const YYYY = date.getUTCFullYear().toString();
   const MM = String(date.getUTCMonth() + 1).padStart(2, "0");
   const DD = String(date.getUTCDate()).padStart(2, "0");
@@ -102,32 +102,32 @@ export function getAmzDates(date = new Date()): AmzDates {
   const amzDate = `${dateStamp}T${hh}${mm}${ss}Z`;
 
   return { dateStamp, amzDate };
-}
+};
 
 /**
  * Generate AWS Signature Version 4 signing key
  */
-async function getSigningKey(
+const getSigningKey = async (
   config: SignerConfig,
   dateStamp: string,
-): Promise<ArrayBuffer> {
+): Promise<ArrayBuffer> => {
   const kDate = await hmac(`AWS4${config.credentials.secretAccessKey}`, dateStamp);
   const kRegion = await hmac(kDate, config.region);
   const kService = await hmac(kRegion, config.service);
   const kSigning = await hmac(kService, "aws4_request");
   return kSigning;
-}
+};
 
 /**
  * Sign DynamoDB request with SigV4 signature
  */
-export async function signDynamoRequest(
+export const signDynamoRequest = async (
   config: SignerConfig,
   body: string,
   target: string,
   host: string,
   now = new Date(),
-): Promise<SignedRequest> {
+): Promise<SignedRequest> => {
   const { dateStamp, amzDate } = getAmzDates(now);
 
   const method = "POST";
@@ -192,4 +192,4 @@ export async function signDynamoRequest(
   }
 
   return { headers, body };
-}
+};

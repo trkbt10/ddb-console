@@ -55,7 +55,7 @@ const errorDefinitions: Record<string, DynamoDBErrorClass> = Errors as Record<st
 /**
  * Parse DynamoDB error response and create appropriate error instance
  */
-export function parseDynamoDBError(response: { status: number; statusText: string; body: string }): DynamoDBError {
+export const parseDynamoDBError = (response: { status: number; statusText: string; body: string }): DynamoDBError => {
   try {
     // Try to parse JSON error response
     const errorResponse = JSON.parse(response.body);
@@ -87,4 +87,4 @@ export function parseDynamoDBError(response: { status: number; statusText: strin
       },
     );
   }
-}
+};

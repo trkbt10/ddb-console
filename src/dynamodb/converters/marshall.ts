@@ -7,7 +7,7 @@ import type { AttributeValue } from "../context/record-item";
 /**
  * Convert JavaScript value to DynamoDB AttributeValue format
  */
-export function marshall(value: unknown): AttributeValue {
+export const marshall = (value: unknown): AttributeValue => {
   if (value === null || value === undefined) {
     return { NULL: true };
   }
@@ -52,17 +52,17 @@ export function marshall(value: unknown): AttributeValue {
   }
 
   throw new Error(`Unsupported type: ${typeof value}`);
-}
+};
 
 /**
  * Marshall all properties of an object
  */
-export function marshallObject(
+export const marshallObject = (
   obj: Record<string, unknown>,
-): Record<string, AttributeValue> {
+): Record<string, AttributeValue> => {
   const result: Record<string, AttributeValue> = {};
   for (const [key, value] of Object.entries(obj)) {
     result[key] = marshall(value);
   }
   return result;
-}
+};

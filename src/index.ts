@@ -11,7 +11,7 @@ import { unmarshallItem } from "./dynamodb/converters/unmarshall";
 // Example Query usage
 // =====================
 
-async function main() {
+const main = async () => {
   try {
     const credentials = getCredentialsFromEnv();
     const endpoint = getEndpointFromEnv();
@@ -43,6 +43,6 @@ async function main() {
   } catch (e) {
     console.error(e);
   }
-}
+};
 
 main();
