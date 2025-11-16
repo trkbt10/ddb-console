@@ -14,7 +14,7 @@ async function listTablesHandler(region: string): Promise<void> {
   const credentials = getCredentialsFromEnv();
   const endpoint = getEndpointFromEnv();
   const client = createClient({ region, credentials, endpoint });
-  const result = await client.listTables();
+  const result = await client.listTables({});
 
   if (!result.TableNames) {
     console.log("No tables found");

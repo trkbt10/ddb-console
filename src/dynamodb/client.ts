@@ -116,7 +116,7 @@ export type ClientConfig = {
  */
 export type DynamoDBClient = {
   // Table operations
-  listTables: (input?: CommandInput<typeof listTablesCommand>) => Promise<CommandOutput<typeof listTablesCommand>>;
+  listTables: (input: CommandInput<typeof listTablesCommand>) => Promise<CommandOutput<typeof listTablesCommand>>;
   describeTable: (input: CommandInput<typeof describeTableCommand>) => Promise<CommandOutput<typeof describeTableCommand>>;
   createTable: (input: CommandInput<typeof createTableCommand>) => Promise<CommandOutput<typeof createTableCommand>>;
   updateTable: (input: CommandInput<typeof updateTableCommand>) => Promise<CommandOutput<typeof updateTableCommand>>;
@@ -150,7 +150,7 @@ export type DynamoDBClient = {
   deleteBackup: (input: CommandInput<typeof deleteBackupCommand>) => Promise<CommandOutput<typeof deleteBackupCommand>>;
   describeBackup: (input: CommandInput<typeof describeBackupCommand>) => Promise<CommandOutput<typeof describeBackupCommand>>;
   describeContinuousBackups: (input: CommandInput<typeof describeContinuousBackupsCommand>) => Promise<CommandOutput<typeof describeContinuousBackupsCommand>>;
-  listBackups: (input?: CommandInput<typeof listBackupsCommand>) => Promise<CommandOutput<typeof listBackupsCommand>>;
+  listBackups: (input: CommandInput<typeof listBackupsCommand>) => Promise<CommandOutput<typeof listBackupsCommand>>;
   restoreTableFromBackup: (input: CommandInput<typeof restoreTableFromBackupCommand>) => Promise<CommandOutput<typeof restoreTableFromBackupCommand>>;
   restoreTableToPointInTime: (input: CommandInput<typeof restoreTableToPointInTimeCommand>) => Promise<CommandOutput<typeof restoreTableToPointInTimeCommand>>;
   updateContinuousBackups: (input: CommandInput<typeof updateContinuousBackupsCommand>) => Promise<CommandOutput<typeof updateContinuousBackupsCommand>>;
@@ -159,7 +159,7 @@ export type DynamoDBClient = {
   createGlobalTable: (input: CommandInput<typeof createGlobalTableCommand>) => Promise<CommandOutput<typeof createGlobalTableCommand>>;
   describeGlobalTable: (input: CommandInput<typeof describeGlobalTableCommand>) => Promise<CommandOutput<typeof describeGlobalTableCommand>>;
   describeGlobalTableSettings: (input: CommandInput<typeof describeGlobalTableSettingsCommand>) => Promise<CommandOutput<typeof describeGlobalTableSettingsCommand>>;
-  listGlobalTables: (input?: CommandInput<typeof listGlobalTablesCommand>) => Promise<CommandOutput<typeof listGlobalTablesCommand>>;
+  listGlobalTables: (input: CommandInput<typeof listGlobalTablesCommand>) => Promise<CommandOutput<typeof listGlobalTablesCommand>>;
   updateGlobalTable: (input: CommandInput<typeof updateGlobalTableCommand>) => Promise<CommandOutput<typeof updateGlobalTableCommand>>;
   updateGlobalTableSettings: (input: CommandInput<typeof updateGlobalTableSettingsCommand>) => Promise<CommandOutput<typeof updateGlobalTableSettingsCommand>>;
 
@@ -177,8 +177,8 @@ export type DynamoDBClient = {
   describeImport: (input: CommandInput<typeof describeImportCommand>) => Promise<CommandOutput<typeof describeImportCommand>>;
   exportTableToPointInTime: (input: CommandInput<typeof exportTableToPointInTimeCommand>) => Promise<CommandOutput<typeof exportTableToPointInTimeCommand>>;
   importTable: (input: CommandInput<typeof importTableCommand>) => Promise<CommandOutput<typeof importTableCommand>>;
-  listExports: (input?: CommandInput<typeof listExportsCommand>) => Promise<CommandOutput<typeof listExportsCommand>>;
-  listImports: (input?: CommandInput<typeof listImportsCommand>) => Promise<CommandOutput<typeof listImportsCommand>>;
+  listExports: (input: CommandInput<typeof listExportsCommand>) => Promise<CommandOutput<typeof listExportsCommand>>;
+  listImports: (input: CommandInput<typeof listImportsCommand>) => Promise<CommandOutput<typeof listImportsCommand>>;
 
   // Kinesis streaming operations
   describeKinesisStreamingDestination: (input: CommandInput<typeof describeKinesisStreamingDestinationCommand>) => Promise<CommandOutput<typeof describeKinesisStreamingDestinationCommand>>;
@@ -188,7 +188,7 @@ export type DynamoDBClient = {
 
   // Contributor Insights operations
   describeContributorInsights: (input: CommandInput<typeof describeContributorInsightsCommand>) => Promise<CommandOutput<typeof describeContributorInsightsCommand>>;
-  listContributorInsights: (input?: CommandInput<typeof listContributorInsightsCommand>) => Promise<CommandOutput<typeof listContributorInsightsCommand>>;
+  listContributorInsights: (input: CommandInput<typeof listContributorInsightsCommand>) => Promise<CommandOutput<typeof listContributorInsightsCommand>>;
   updateContributorInsights: (input: CommandInput<typeof updateContributorInsightsCommand>) => Promise<CommandOutput<typeof updateContributorInsightsCommand>>;
 
   // Resource policy operations
@@ -201,8 +201,8 @@ export type DynamoDBClient = {
   updateTableReplicaAutoScaling: (input: CommandInput<typeof updateTableReplicaAutoScalingCommand>) => Promise<CommandOutput<typeof updateTableReplicaAutoScalingCommand>>;
 
   // Other operations
-  describeEndpoints: (input?: CommandInput<typeof describeEndpointsCommand>) => Promise<CommandOutput<typeof describeEndpointsCommand>>;
-  describeLimits: (input?: CommandInput<typeof describeLimitsCommand>) => Promise<CommandOutput<typeof describeLimitsCommand>>;
+  describeEndpoints: (input: CommandInput<typeof describeEndpointsCommand>) => Promise<CommandOutput<typeof describeEndpointsCommand>>;
+  describeLimits: (input: CommandInput<typeof describeLimitsCommand>) => Promise<CommandOutput<typeof describeLimitsCommand>>;
 };
 
 // =====================
@@ -255,11 +255,7 @@ function createCommandMethod<TInput, TOutput>(
   deps: ClientDependencies,
 ): (input: TInput) => Promise<TOutput> {
   return async (input: TInput): Promise<TOutput> => {
-    // Convert input to API payload format
-    // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API payload
     const result = await executeCommand(config, deps, commandDef.name, input as Record<string, unknown>);
-    // Assert DynamoDB response type
-    // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
     return result as TOutput;
   };
 }
@@ -277,12 +273,7 @@ export function createClient(
 ): DynamoDBClient {
   return {
     // Table operations
-    listTables: async (input = {}) => {
-      const result = await executeCommand(config, deps, listTablesCommand.name, input);
-      // Assert DynamoDB response type
-      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
-      return result as CommandOutput<typeof listTablesCommand>;
-    },
+    listTables: createCommandMethod(listTablesCommand, config, deps),
     describeTable: createCommandMethod(describeTableCommand, config, deps),
     createTable: createCommandMethod(createTableCommand, config, deps),
     updateTable: createCommandMethod(updateTableCommand, config, deps),
@@ -316,11 +307,7 @@ export function createClient(
     deleteBackup: createCommandMethod(deleteBackupCommand, config, deps),
     describeBackup: createCommandMethod(describeBackupCommand, config, deps),
     describeContinuousBackups: createCommandMethod(describeContinuousBackupsCommand, config, deps),
-    listBackups: async (input = {}) => {
-      const result = await executeCommand(config, deps, listBackupsCommand.name, input);
-      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
-      return result as CommandOutput<typeof listBackupsCommand>;
-    },
+    listBackups: createCommandMethod(listBackupsCommand, config, deps),
     restoreTableFromBackup: createCommandMethod(restoreTableFromBackupCommand, config, deps),
     restoreTableToPointInTime: createCommandMethod(restoreTableToPointInTimeCommand, config, deps),
     updateContinuousBackups: createCommandMethod(updateContinuousBackupsCommand, config, deps),
@@ -329,11 +316,7 @@ export function createClient(
     createGlobalTable: createCommandMethod(createGlobalTableCommand, config, deps),
     describeGlobalTable: createCommandMethod(describeGlobalTableCommand, config, deps),
     describeGlobalTableSettings: createCommandMethod(describeGlobalTableSettingsCommand, config, deps),
-    listGlobalTables: async (input = {}) => {
-      const result = await executeCommand(config, deps, listGlobalTablesCommand.name, input);
-      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
-      return result as CommandOutput<typeof listGlobalTablesCommand>;
-    },
+    listGlobalTables: createCommandMethod(listGlobalTablesCommand, config, deps),
     updateGlobalTable: createCommandMethod(updateGlobalTableCommand, config, deps),
     updateGlobalTableSettings: createCommandMethod(updateGlobalTableSettingsCommand, config, deps),
 
@@ -351,16 +334,8 @@ export function createClient(
     describeImport: createCommandMethod(describeImportCommand, config, deps),
     exportTableToPointInTime: createCommandMethod(exportTableToPointInTimeCommand, config, deps),
     importTable: createCommandMethod(importTableCommand, config, deps),
-    listExports: async (input = {}) => {
-      const result = await executeCommand(config, deps, listExportsCommand.name, input);
-      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
-      return result as CommandOutput<typeof listExportsCommand>;
-    },
-    listImports: async (input = {}) => {
-      const result = await executeCommand(config, deps, listImportsCommand.name, input);
-      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
-      return result as CommandOutput<typeof listImportsCommand>;
-    },
+    listExports: createCommandMethod(listExportsCommand, config, deps),
+    listImports: createCommandMethod(listImportsCommand, config, deps),
 
     // Kinesis streaming operations
     describeKinesisStreamingDestination: createCommandMethod(describeKinesisStreamingDestinationCommand, config, deps),
@@ -370,11 +345,7 @@ export function createClient(
 
     // Contributor Insights operations
     describeContributorInsights: createCommandMethod(describeContributorInsightsCommand, config, deps),
-    listContributorInsights: async (input = {}) => {
-      const result = await executeCommand(config, deps, listContributorInsightsCommand.name, input);
-      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
-      return result as CommandOutput<typeof listContributorInsightsCommand>;
-    },
+    listContributorInsights: createCommandMethod(listContributorInsightsCommand, config, deps),
     updateContributorInsights: createCommandMethod(updateContributorInsightsCommand, config, deps),
 
     // Resource policy operations
@@ -387,15 +358,7 @@ export function createClient(
     updateTableReplicaAutoScaling: createCommandMethod(updateTableReplicaAutoScalingCommand, config, deps),
 
     // Other operations
-    describeEndpoints: async (input = {}) => {
-      const result = await executeCommand(config, deps, describeEndpointsCommand.name, input);
-      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
-      return result as CommandOutput<typeof describeEndpointsCommand>;
-    },
-    describeLimits: async (input = {}) => {
-      const result = await executeCommand(config, deps, describeLimitsCommand.name, input);
-      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
-      return result as CommandOutput<typeof describeLimitsCommand>;
-    },
+    describeEndpoints: createCommandMethod(describeEndpointsCommand, config, deps),
+    describeLimits: createCommandMethod(describeLimitsCommand, config, deps),
   };
 }

@@ -62,6 +62,38 @@ export function defineError<TName extends string>(
 }
 
 /**
+ * DynamoDB error class constructor type
+ */
+export type DynamoDBErrorClass = new (message: string) => DynamoDBError;
+
+/**
+ * Helper function to define DynamoDB error class for instanceof checks
+ */
+export function defineErrorClass<TName extends string>(
+  name: TName,
+  metadata: ErrorMetadata,
+): DynamoDBErrorClass {
+  return class extends Error implements DynamoDBErrorProperties {
+    readonly __type: string;
+    readonly httpStatusCode: number;
+    readonly retryable: boolean;
+
+    constructor(message: string) {
+      super(message);
+      this.name = name;
+      this.__type = `com.amazonaws.dynamodb.v20120810#${name}`;
+      this.httpStatusCode = metadata.httpStatusCode;
+      this.retryable = metadata.retryable;
+
+      // Maintains proper stack trace for where our error was thrown (only available on V8)
+      if (Error.captureStackTrace) {
+        Error.captureStackTrace(this, this.constructor);
+      }
+    }
+  } as DynamoDBErrorClass;
+}
+
+/**
  * Parse DynamoDB error response
  */
 export type DynamoDBErrorResponse = {
