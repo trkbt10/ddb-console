@@ -32,6 +32,37 @@ import listBackupsCommand from "./commands/list-backups";
 import restoreTableFromBackupCommand from "./commands/restore-table-from-backup";
 import restoreTableToPointInTimeCommand from "./commands/restore-table-to-point-in-time";
 import updateContinuousBackupsCommand from "./commands/update-continuous-backups";
+import createGlobalTableCommand from "./commands/create-global-table";
+import describeGlobalTableCommand from "./commands/describe-global-table";
+import describeGlobalTableSettingsCommand from "./commands/describe-global-table-settings";
+import listGlobalTablesCommand from "./commands/list-global-tables";
+import updateGlobalTableCommand from "./commands/update-global-table";
+import updateGlobalTableSettingsCommand from "./commands/update-global-table-settings";
+import listTagsOfResourceCommand from "./commands/list-tags-of-resource";
+import tagResourceCommand from "./commands/tag-resource";
+import untagResourceCommand from "./commands/untag-resource";
+import describeTimeToLiveCommand from "./commands/describe-time-to-live";
+import updateTimeToLiveCommand from "./commands/update-time-to-live";
+import describeExportCommand from "./commands/describe-export";
+import describeImportCommand from "./commands/describe-import";
+import exportTableToPointInTimeCommand from "./commands/export-table-to-point-in-time";
+import importTableCommand from "./commands/import-table";
+import listExportsCommand from "./commands/list-exports";
+import listImportsCommand from "./commands/list-imports";
+import describeKinesisStreamingDestinationCommand from "./commands/describe-kinesis-streaming-destination";
+import disableKinesisStreamingDestinationCommand from "./commands/disable-kinesis-streaming-destination";
+import enableKinesisStreamingDestinationCommand from "./commands/enable-kinesis-streaming-destination";
+import updateKinesisStreamingDestinationCommand from "./commands/update-kinesis-streaming-destination";
+import describeContributorInsightsCommand from "./commands/describe-contributor-insights";
+import listContributorInsightsCommand from "./commands/list-contributor-insights";
+import updateContributorInsightsCommand from "./commands/update-contributor-insights";
+import deleteResourcePolicyCommand from "./commands/delete-resource-policy";
+import getResourcePolicyCommand from "./commands/get-resource-policy";
+import putResourcePolicyCommand from "./commands/put-resource-policy";
+import describeTableReplicaAutoScalingCommand from "./commands/describe-table-replica-auto-scaling";
+import updateTableReplicaAutoScalingCommand from "./commands/update-table-replica-auto-scaling";
+import describeEndpointsCommand from "./commands/describe-endpoints";
+import describeLimitsCommand from "./commands/describe-limits";
 
 // =====================
 // Dependency type definitions
@@ -122,6 +153,55 @@ export type DynamoDBClient = {
   restoreTableFromBackup: (input: CommandInput<typeof restoreTableFromBackupCommand>) => Promise<CommandOutput<typeof restoreTableFromBackupCommand>>;
   restoreTableToPointInTime: (input: CommandInput<typeof restoreTableToPointInTimeCommand>) => Promise<CommandOutput<typeof restoreTableToPointInTimeCommand>>;
   updateContinuousBackups: (input: CommandInput<typeof updateContinuousBackupsCommand>) => Promise<CommandOutput<typeof updateContinuousBackupsCommand>>;
+
+  // Global table operations
+  createGlobalTable: (input: CommandInput<typeof createGlobalTableCommand>) => Promise<CommandOutput<typeof createGlobalTableCommand>>;
+  describeGlobalTable: (input: CommandInput<typeof describeGlobalTableCommand>) => Promise<CommandOutput<typeof describeGlobalTableCommand>>;
+  describeGlobalTableSettings: (input: CommandInput<typeof describeGlobalTableSettingsCommand>) => Promise<CommandOutput<typeof describeGlobalTableSettingsCommand>>;
+  listGlobalTables: (input?: CommandInput<typeof listGlobalTablesCommand>) => Promise<CommandOutput<typeof listGlobalTablesCommand>>;
+  updateGlobalTable: (input: CommandInput<typeof updateGlobalTableCommand>) => Promise<CommandOutput<typeof updateGlobalTableCommand>>;
+  updateGlobalTableSettings: (input: CommandInput<typeof updateGlobalTableSettingsCommand>) => Promise<CommandOutput<typeof updateGlobalTableSettingsCommand>>;
+
+  // Tag management operations
+  listTagsOfResource: (input: CommandInput<typeof listTagsOfResourceCommand>) => Promise<CommandOutput<typeof listTagsOfResourceCommand>>;
+  tagResource: (input: CommandInput<typeof tagResourceCommand>) => Promise<CommandOutput<typeof tagResourceCommand>>;
+  untagResource: (input: CommandInput<typeof untagResourceCommand>) => Promise<CommandOutput<typeof untagResourceCommand>>;
+
+  // TTL operations
+  describeTimeToLive: (input: CommandInput<typeof describeTimeToLiveCommand>) => Promise<CommandOutput<typeof describeTimeToLiveCommand>>;
+  updateTimeToLive: (input: CommandInput<typeof updateTimeToLiveCommand>) => Promise<CommandOutput<typeof updateTimeToLiveCommand>>;
+
+  // Import/Export operations
+  describeExport: (input: CommandInput<typeof describeExportCommand>) => Promise<CommandOutput<typeof describeExportCommand>>;
+  describeImport: (input: CommandInput<typeof describeImportCommand>) => Promise<CommandOutput<typeof describeImportCommand>>;
+  exportTableToPointInTime: (input: CommandInput<typeof exportTableToPointInTimeCommand>) => Promise<CommandOutput<typeof exportTableToPointInTimeCommand>>;
+  importTable: (input: CommandInput<typeof importTableCommand>) => Promise<CommandOutput<typeof importTableCommand>>;
+  listExports: (input?: CommandInput<typeof listExportsCommand>) => Promise<CommandOutput<typeof listExportsCommand>>;
+  listImports: (input?: CommandInput<typeof listImportsCommand>) => Promise<CommandOutput<typeof listImportsCommand>>;
+
+  // Kinesis streaming operations
+  describeKinesisStreamingDestination: (input: CommandInput<typeof describeKinesisStreamingDestinationCommand>) => Promise<CommandOutput<typeof describeKinesisStreamingDestinationCommand>>;
+  disableKinesisStreamingDestination: (input: CommandInput<typeof disableKinesisStreamingDestinationCommand>) => Promise<CommandOutput<typeof disableKinesisStreamingDestinationCommand>>;
+  enableKinesisStreamingDestination: (input: CommandInput<typeof enableKinesisStreamingDestinationCommand>) => Promise<CommandOutput<typeof enableKinesisStreamingDestinationCommand>>;
+  updateKinesisStreamingDestination: (input: CommandInput<typeof updateKinesisStreamingDestinationCommand>) => Promise<CommandOutput<typeof updateKinesisStreamingDestinationCommand>>;
+
+  // Contributor Insights operations
+  describeContributorInsights: (input: CommandInput<typeof describeContributorInsightsCommand>) => Promise<CommandOutput<typeof describeContributorInsightsCommand>>;
+  listContributorInsights: (input?: CommandInput<typeof listContributorInsightsCommand>) => Promise<CommandOutput<typeof listContributorInsightsCommand>>;
+  updateContributorInsights: (input: CommandInput<typeof updateContributorInsightsCommand>) => Promise<CommandOutput<typeof updateContributorInsightsCommand>>;
+
+  // Resource policy operations
+  deleteResourcePolicy: (input: CommandInput<typeof deleteResourcePolicyCommand>) => Promise<CommandOutput<typeof deleteResourcePolicyCommand>>;
+  getResourcePolicy: (input: CommandInput<typeof getResourcePolicyCommand>) => Promise<CommandOutput<typeof getResourcePolicyCommand>>;
+  putResourcePolicy: (input: CommandInput<typeof putResourcePolicyCommand>) => Promise<CommandOutput<typeof putResourcePolicyCommand>>;
+
+  // AutoScaling operations
+  describeTableReplicaAutoScaling: (input: CommandInput<typeof describeTableReplicaAutoScalingCommand>) => Promise<CommandOutput<typeof describeTableReplicaAutoScalingCommand>>;
+  updateTableReplicaAutoScaling: (input: CommandInput<typeof updateTableReplicaAutoScalingCommand>) => Promise<CommandOutput<typeof updateTableReplicaAutoScalingCommand>>;
+
+  // Other operations
+  describeEndpoints: (input?: CommandInput<typeof describeEndpointsCommand>) => Promise<CommandOutput<typeof describeEndpointsCommand>>;
+  describeLimits: (input?: CommandInput<typeof describeLimitsCommand>) => Promise<CommandOutput<typeof describeLimitsCommand>>;
 };
 
 // =====================
@@ -241,5 +321,78 @@ export function createClient(
     restoreTableFromBackup: createCommandMethod(restoreTableFromBackupCommand, config, deps),
     restoreTableToPointInTime: createCommandMethod(restoreTableToPointInTimeCommand, config, deps),
     updateContinuousBackups: createCommandMethod(updateContinuousBackupsCommand, config, deps),
+
+    // Global table operations
+    createGlobalTable: createCommandMethod(createGlobalTableCommand, config, deps),
+    describeGlobalTable: createCommandMethod(describeGlobalTableCommand, config, deps),
+    describeGlobalTableSettings: createCommandMethod(describeGlobalTableSettingsCommand, config, deps),
+    listGlobalTables: async (input = {}) => {
+      const result = await executeCommand(config, deps, listGlobalTablesCommand.name, input);
+      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
+      return result as CommandOutput<typeof listGlobalTablesCommand>;
+    },
+    updateGlobalTable: createCommandMethod(updateGlobalTableCommand, config, deps),
+    updateGlobalTableSettings: createCommandMethod(updateGlobalTableSettingsCommand, config, deps),
+
+    // Tag management operations
+    listTagsOfResource: createCommandMethod(listTagsOfResourceCommand, config, deps),
+    tagResource: createCommandMethod(tagResourceCommand, config, deps),
+    untagResource: createCommandMethod(untagResourceCommand, config, deps),
+
+    // TTL operations
+    describeTimeToLive: createCommandMethod(describeTimeToLiveCommand, config, deps),
+    updateTimeToLive: createCommandMethod(updateTimeToLiveCommand, config, deps),
+
+    // Import/Export operations
+    describeExport: createCommandMethod(describeExportCommand, config, deps),
+    describeImport: createCommandMethod(describeImportCommand, config, deps),
+    exportTableToPointInTime: createCommandMethod(exportTableToPointInTimeCommand, config, deps),
+    importTable: createCommandMethod(importTableCommand, config, deps),
+    listExports: async (input = {}) => {
+      const result = await executeCommand(config, deps, listExportsCommand.name, input);
+      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
+      return result as CommandOutput<typeof listExportsCommand>;
+    },
+    listImports: async (input = {}) => {
+      const result = await executeCommand(config, deps, listImportsCommand.name, input);
+      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
+      return result as CommandOutput<typeof listImportsCommand>;
+    },
+
+    // Kinesis streaming operations
+    describeKinesisStreamingDestination: createCommandMethod(describeKinesisStreamingDestinationCommand, config, deps),
+    disableKinesisStreamingDestination: createCommandMethod(disableKinesisStreamingDestinationCommand, config, deps),
+    enableKinesisStreamingDestination: createCommandMethod(enableKinesisStreamingDestinationCommand, config, deps),
+    updateKinesisStreamingDestination: createCommandMethod(updateKinesisStreamingDestinationCommand, config, deps),
+
+    // Contributor Insights operations
+    describeContributorInsights: createCommandMethod(describeContributorInsightsCommand, config, deps),
+    listContributorInsights: async (input = {}) => {
+      const result = await executeCommand(config, deps, listContributorInsightsCommand.name, input);
+      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
+      return result as CommandOutput<typeof listContributorInsightsCommand>;
+    },
+    updateContributorInsights: createCommandMethod(updateContributorInsightsCommand, config, deps),
+
+    // Resource policy operations
+    deleteResourcePolicy: createCommandMethod(deleteResourcePolicyCommand, config, deps),
+    getResourcePolicy: createCommandMethod(getResourcePolicyCommand, config, deps),
+    putResourcePolicy: createCommandMethod(putResourcePolicyCommand, config, deps),
+
+    // AutoScaling operations
+    describeTableReplicaAutoScaling: createCommandMethod(describeTableReplicaAutoScalingCommand, config, deps),
+    updateTableReplicaAutoScaling: createCommandMethod(updateTableReplicaAutoScalingCommand, config, deps),
+
+    // Other operations
+    describeEndpoints: async (input = {}) => {
+      const result = await executeCommand(config, deps, describeEndpointsCommand.name, input);
+      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
+      return result as CommandOutput<typeof describeEndpointsCommand>;
+    },
+    describeLimits: async (input = {}) => {
+      const result = await executeCommand(config, deps, describeLimitsCommand.name, input);
+      // eslint-disable-next-line custom/no-as-outside-guard -- Safe type assertion for DynamoDB API response
+      return result as CommandOutput<typeof describeLimitsCommand>;
+    },
   };
 }

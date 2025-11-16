@@ -10,6 +10,7 @@ import {
   type ClientConfig,
   type ClientDependencies,
 } from "./client";
+import { resolveEndpointAndHost } from "./config";
 
 // =====================
 // Client creation options
@@ -26,32 +27,6 @@ export type CreateClientOptions = {
 };
 
 // =====================
-// Endpoint resolution
-// =====================
-
-/**
- * Resolve endpoint and host
- */
-function resolveEndpointAndHost(
-  region: string,
-  customEndpoint?: string,
-): { endpoint: string; host: string } {
-  if (customEndpoint) {
-    const url = new URL(customEndpoint);
-    return {
-      endpoint: customEndpoint,
-      host: url.host,
-    };
-  }
-
-  const host = `dynamodb.${region}.amazonaws.com`;
-  return {
-    endpoint: `https://${host}/`,
-    host,
-  };
-}
-
-// =====================
 // Client creation
 // =====================
 
@@ -61,12 +36,12 @@ function resolveEndpointAndHost(
 export function createClient(options: CreateClientOptions): DynamoDBClient {
   const { region, credentials, endpoint: customEndpoint, dependencies } = options;
 
-  const { endpoint, host } = resolveEndpointAndHost(region, customEndpoint);
+  const url = resolveEndpointAndHost(region, customEndpoint);
 
   const config: ClientConfig = {
     region,
-    endpoint,
-    host,
+    endpoint: url.href,
+    host: url.host,
   };
 
   const defaultDeps: ClientDependencies = {
