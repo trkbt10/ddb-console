@@ -72,19 +72,12 @@ import describeLimitsCommand from "./commands/describe-limits";
 /**
  * Signer function type
  */
-export type SignerFunction = (
-  body: string,
-  target: string,
-  host: string,
-) => Promise<SignedRequest>;
+export type SignerFunction = (body: string, target: string, host: string) => Promise<SignedRequest>;
 
 /**
  * Fetch function type
  */
-export type FetchFunction = (
-  url: string,
-  init: RequestInit,
-) => Promise<Response>;
+export type FetchFunction = (url: string, init: RequestInit) => Promise<Response>;
 
 /**
  * Client dependencies
@@ -117,7 +110,9 @@ export type ClientConfig = {
 export type DynamoDBClient = {
   // Table operations
   listTables: (input: CommandInput<typeof listTablesCommand>) => Promise<CommandOutput<typeof listTablesCommand>>;
-  describeTable: (input: CommandInput<typeof describeTableCommand>) => Promise<CommandOutput<typeof describeTableCommand>>;
+  describeTable: (
+    input: CommandInput<typeof describeTableCommand>,
+  ) => Promise<CommandOutput<typeof describeTableCommand>>;
   createTable: (input: CommandInput<typeof createTableCommand>) => Promise<CommandOutput<typeof createTableCommand>>;
   updateTable: (input: CommandInput<typeof updateTableCommand>) => Promise<CommandOutput<typeof updateTableCommand>>;
   deleteTable: (input: CommandInput<typeof deleteTableCommand>) => Promise<CommandOutput<typeof deleteTableCommand>>;
@@ -134,75 +129,151 @@ export type DynamoDBClient = {
 
   // Batch operations
   batchGetItem: (input: CommandInput<typeof batchGetItemCommand>) => Promise<CommandOutput<typeof batchGetItemCommand>>;
-  batchWriteItem: (input: CommandInput<typeof batchWriteItemCommand>) => Promise<CommandOutput<typeof batchWriteItemCommand>>;
+  batchWriteItem: (
+    input: CommandInput<typeof batchWriteItemCommand>,
+  ) => Promise<CommandOutput<typeof batchWriteItemCommand>>;
 
   // Transaction operations
-  transactGetItems: (input: CommandInput<typeof transactGetItemsCommand>) => Promise<CommandOutput<typeof transactGetItemsCommand>>;
-  transactWriteItems: (input: CommandInput<typeof transactWriteItemsCommand>) => Promise<CommandOutput<typeof transactWriteItemsCommand>>;
+  transactGetItems: (
+    input: CommandInput<typeof transactGetItemsCommand>,
+  ) => Promise<CommandOutput<typeof transactGetItemsCommand>>;
+  transactWriteItems: (
+    input: CommandInput<typeof transactWriteItemsCommand>,
+  ) => Promise<CommandOutput<typeof transactWriteItemsCommand>>;
 
   // PartiQL operations
-  executeStatement: (input: CommandInput<typeof executeStatementCommand>) => Promise<CommandOutput<typeof executeStatementCommand>>;
-  batchExecuteStatement: (input: CommandInput<typeof batchExecuteStatementCommand>) => Promise<CommandOutput<typeof batchExecuteStatementCommand>>;
-  executeTransaction: (input: CommandInput<typeof executeTransactionCommand>) => Promise<CommandOutput<typeof executeTransactionCommand>>;
+  executeStatement: (
+    input: CommandInput<typeof executeStatementCommand>,
+  ) => Promise<CommandOutput<typeof executeStatementCommand>>;
+  batchExecuteStatement: (
+    input: CommandInput<typeof batchExecuteStatementCommand>,
+  ) => Promise<CommandOutput<typeof batchExecuteStatementCommand>>;
+  executeTransaction: (
+    input: CommandInput<typeof executeTransactionCommand>,
+  ) => Promise<CommandOutput<typeof executeTransactionCommand>>;
 
   // Backup and restore operations
   createBackup: (input: CommandInput<typeof createBackupCommand>) => Promise<CommandOutput<typeof createBackupCommand>>;
   deleteBackup: (input: CommandInput<typeof deleteBackupCommand>) => Promise<CommandOutput<typeof deleteBackupCommand>>;
-  describeBackup: (input: CommandInput<typeof describeBackupCommand>) => Promise<CommandOutput<typeof describeBackupCommand>>;
-  describeContinuousBackups: (input: CommandInput<typeof describeContinuousBackupsCommand>) => Promise<CommandOutput<typeof describeContinuousBackupsCommand>>;
+  describeBackup: (
+    input: CommandInput<typeof describeBackupCommand>,
+  ) => Promise<CommandOutput<typeof describeBackupCommand>>;
+  describeContinuousBackups: (
+    input: CommandInput<typeof describeContinuousBackupsCommand>,
+  ) => Promise<CommandOutput<typeof describeContinuousBackupsCommand>>;
   listBackups: (input: CommandInput<typeof listBackupsCommand>) => Promise<CommandOutput<typeof listBackupsCommand>>;
-  restoreTableFromBackup: (input: CommandInput<typeof restoreTableFromBackupCommand>) => Promise<CommandOutput<typeof restoreTableFromBackupCommand>>;
-  restoreTableToPointInTime: (input: CommandInput<typeof restoreTableToPointInTimeCommand>) => Promise<CommandOutput<typeof restoreTableToPointInTimeCommand>>;
-  updateContinuousBackups: (input: CommandInput<typeof updateContinuousBackupsCommand>) => Promise<CommandOutput<typeof updateContinuousBackupsCommand>>;
+  restoreTableFromBackup: (
+    input: CommandInput<typeof restoreTableFromBackupCommand>,
+  ) => Promise<CommandOutput<typeof restoreTableFromBackupCommand>>;
+  restoreTableToPointInTime: (
+    input: CommandInput<typeof restoreTableToPointInTimeCommand>,
+  ) => Promise<CommandOutput<typeof restoreTableToPointInTimeCommand>>;
+  updateContinuousBackups: (
+    input: CommandInput<typeof updateContinuousBackupsCommand>,
+  ) => Promise<CommandOutput<typeof updateContinuousBackupsCommand>>;
 
   // Global table operations
-  createGlobalTable: (input: CommandInput<typeof createGlobalTableCommand>) => Promise<CommandOutput<typeof createGlobalTableCommand>>;
-  describeGlobalTable: (input: CommandInput<typeof describeGlobalTableCommand>) => Promise<CommandOutput<typeof describeGlobalTableCommand>>;
-  describeGlobalTableSettings: (input: CommandInput<typeof describeGlobalTableSettingsCommand>) => Promise<CommandOutput<typeof describeGlobalTableSettingsCommand>>;
-  listGlobalTables: (input: CommandInput<typeof listGlobalTablesCommand>) => Promise<CommandOutput<typeof listGlobalTablesCommand>>;
-  updateGlobalTable: (input: CommandInput<typeof updateGlobalTableCommand>) => Promise<CommandOutput<typeof updateGlobalTableCommand>>;
-  updateGlobalTableSettings: (input: CommandInput<typeof updateGlobalTableSettingsCommand>) => Promise<CommandOutput<typeof updateGlobalTableSettingsCommand>>;
+  createGlobalTable: (
+    input: CommandInput<typeof createGlobalTableCommand>,
+  ) => Promise<CommandOutput<typeof createGlobalTableCommand>>;
+  describeGlobalTable: (
+    input: CommandInput<typeof describeGlobalTableCommand>,
+  ) => Promise<CommandOutput<typeof describeGlobalTableCommand>>;
+  describeGlobalTableSettings: (
+    input: CommandInput<typeof describeGlobalTableSettingsCommand>,
+  ) => Promise<CommandOutput<typeof describeGlobalTableSettingsCommand>>;
+  listGlobalTables: (
+    input: CommandInput<typeof listGlobalTablesCommand>,
+  ) => Promise<CommandOutput<typeof listGlobalTablesCommand>>;
+  updateGlobalTable: (
+    input: CommandInput<typeof updateGlobalTableCommand>,
+  ) => Promise<CommandOutput<typeof updateGlobalTableCommand>>;
+  updateGlobalTableSettings: (
+    input: CommandInput<typeof updateGlobalTableSettingsCommand>,
+  ) => Promise<CommandOutput<typeof updateGlobalTableSettingsCommand>>;
 
   // Tag management operations
-  listTagsOfResource: (input: CommandInput<typeof listTagsOfResourceCommand>) => Promise<CommandOutput<typeof listTagsOfResourceCommand>>;
+  listTagsOfResource: (
+    input: CommandInput<typeof listTagsOfResourceCommand>,
+  ) => Promise<CommandOutput<typeof listTagsOfResourceCommand>>;
   tagResource: (input: CommandInput<typeof tagResourceCommand>) => Promise<CommandOutput<typeof tagResourceCommand>>;
-  untagResource: (input: CommandInput<typeof untagResourceCommand>) => Promise<CommandOutput<typeof untagResourceCommand>>;
+  untagResource: (
+    input: CommandInput<typeof untagResourceCommand>,
+  ) => Promise<CommandOutput<typeof untagResourceCommand>>;
 
   // TTL operations
-  describeTimeToLive: (input: CommandInput<typeof describeTimeToLiveCommand>) => Promise<CommandOutput<typeof describeTimeToLiveCommand>>;
-  updateTimeToLive: (input: CommandInput<typeof updateTimeToLiveCommand>) => Promise<CommandOutput<typeof updateTimeToLiveCommand>>;
+  describeTimeToLive: (
+    input: CommandInput<typeof describeTimeToLiveCommand>,
+  ) => Promise<CommandOutput<typeof describeTimeToLiveCommand>>;
+  updateTimeToLive: (
+    input: CommandInput<typeof updateTimeToLiveCommand>,
+  ) => Promise<CommandOutput<typeof updateTimeToLiveCommand>>;
 
   // Import/Export operations
-  describeExport: (input: CommandInput<typeof describeExportCommand>) => Promise<CommandOutput<typeof describeExportCommand>>;
-  describeImport: (input: CommandInput<typeof describeImportCommand>) => Promise<CommandOutput<typeof describeImportCommand>>;
-  exportTableToPointInTime: (input: CommandInput<typeof exportTableToPointInTimeCommand>) => Promise<CommandOutput<typeof exportTableToPointInTimeCommand>>;
+  describeExport: (
+    input: CommandInput<typeof describeExportCommand>,
+  ) => Promise<CommandOutput<typeof describeExportCommand>>;
+  describeImport: (
+    input: CommandInput<typeof describeImportCommand>,
+  ) => Promise<CommandOutput<typeof describeImportCommand>>;
+  exportTableToPointInTime: (
+    input: CommandInput<typeof exportTableToPointInTimeCommand>,
+  ) => Promise<CommandOutput<typeof exportTableToPointInTimeCommand>>;
   importTable: (input: CommandInput<typeof importTableCommand>) => Promise<CommandOutput<typeof importTableCommand>>;
   listExports: (input: CommandInput<typeof listExportsCommand>) => Promise<CommandOutput<typeof listExportsCommand>>;
   listImports: (input: CommandInput<typeof listImportsCommand>) => Promise<CommandOutput<typeof listImportsCommand>>;
 
   // Kinesis streaming operations
-  describeKinesisStreamingDestination: (input: CommandInput<typeof describeKinesisStreamingDestinationCommand>) => Promise<CommandOutput<typeof describeKinesisStreamingDestinationCommand>>;
-  disableKinesisStreamingDestination: (input: CommandInput<typeof disableKinesisStreamingDestinationCommand>) => Promise<CommandOutput<typeof disableKinesisStreamingDestinationCommand>>;
-  enableKinesisStreamingDestination: (input: CommandInput<typeof enableKinesisStreamingDestinationCommand>) => Promise<CommandOutput<typeof enableKinesisStreamingDestinationCommand>>;
-  updateKinesisStreamingDestination: (input: CommandInput<typeof updateKinesisStreamingDestinationCommand>) => Promise<CommandOutput<typeof updateKinesisStreamingDestinationCommand>>;
+  describeKinesisStreamingDestination: (
+    input: CommandInput<typeof describeKinesisStreamingDestinationCommand>,
+  ) => Promise<CommandOutput<typeof describeKinesisStreamingDestinationCommand>>;
+  disableKinesisStreamingDestination: (
+    input: CommandInput<typeof disableKinesisStreamingDestinationCommand>,
+  ) => Promise<CommandOutput<typeof disableKinesisStreamingDestinationCommand>>;
+  enableKinesisStreamingDestination: (
+    input: CommandInput<typeof enableKinesisStreamingDestinationCommand>,
+  ) => Promise<CommandOutput<typeof enableKinesisStreamingDestinationCommand>>;
+  updateKinesisStreamingDestination: (
+    input: CommandInput<typeof updateKinesisStreamingDestinationCommand>,
+  ) => Promise<CommandOutput<typeof updateKinesisStreamingDestinationCommand>>;
 
   // Contributor Insights operations
-  describeContributorInsights: (input: CommandInput<typeof describeContributorInsightsCommand>) => Promise<CommandOutput<typeof describeContributorInsightsCommand>>;
-  listContributorInsights: (input: CommandInput<typeof listContributorInsightsCommand>) => Promise<CommandOutput<typeof listContributorInsightsCommand>>;
-  updateContributorInsights: (input: CommandInput<typeof updateContributorInsightsCommand>) => Promise<CommandOutput<typeof updateContributorInsightsCommand>>;
+  describeContributorInsights: (
+    input: CommandInput<typeof describeContributorInsightsCommand>,
+  ) => Promise<CommandOutput<typeof describeContributorInsightsCommand>>;
+  listContributorInsights: (
+    input: CommandInput<typeof listContributorInsightsCommand>,
+  ) => Promise<CommandOutput<typeof listContributorInsightsCommand>>;
+  updateContributorInsights: (
+    input: CommandInput<typeof updateContributorInsightsCommand>,
+  ) => Promise<CommandOutput<typeof updateContributorInsightsCommand>>;
 
   // Resource policy operations
-  deleteResourcePolicy: (input: CommandInput<typeof deleteResourcePolicyCommand>) => Promise<CommandOutput<typeof deleteResourcePolicyCommand>>;
-  getResourcePolicy: (input: CommandInput<typeof getResourcePolicyCommand>) => Promise<CommandOutput<typeof getResourcePolicyCommand>>;
-  putResourcePolicy: (input: CommandInput<typeof putResourcePolicyCommand>) => Promise<CommandOutput<typeof putResourcePolicyCommand>>;
+  deleteResourcePolicy: (
+    input: CommandInput<typeof deleteResourcePolicyCommand>,
+  ) => Promise<CommandOutput<typeof deleteResourcePolicyCommand>>;
+  getResourcePolicy: (
+    input: CommandInput<typeof getResourcePolicyCommand>,
+  ) => Promise<CommandOutput<typeof getResourcePolicyCommand>>;
+  putResourcePolicy: (
+    input: CommandInput<typeof putResourcePolicyCommand>,
+  ) => Promise<CommandOutput<typeof putResourcePolicyCommand>>;
 
   // AutoScaling operations
-  describeTableReplicaAutoScaling: (input: CommandInput<typeof describeTableReplicaAutoScalingCommand>) => Promise<CommandOutput<typeof describeTableReplicaAutoScalingCommand>>;
-  updateTableReplicaAutoScaling: (input: CommandInput<typeof updateTableReplicaAutoScalingCommand>) => Promise<CommandOutput<typeof updateTableReplicaAutoScalingCommand>>;
+  describeTableReplicaAutoScaling: (
+    input: CommandInput<typeof describeTableReplicaAutoScalingCommand>,
+  ) => Promise<CommandOutput<typeof describeTableReplicaAutoScalingCommand>>;
+  updateTableReplicaAutoScaling: (
+    input: CommandInput<typeof updateTableReplicaAutoScalingCommand>,
+  ) => Promise<CommandOutput<typeof updateTableReplicaAutoScalingCommand>>;
 
   // Other operations
-  describeEndpoints: (input: CommandInput<typeof describeEndpointsCommand>) => Promise<CommandOutput<typeof describeEndpointsCommand>>;
-  describeLimits: (input: CommandInput<typeof describeLimitsCommand>) => Promise<CommandOutput<typeof describeLimitsCommand>>;
+  describeEndpoints: (
+    input: CommandInput<typeof describeEndpointsCommand>,
+  ) => Promise<CommandOutput<typeof describeEndpointsCommand>>;
+  describeLimits: (
+    input: CommandInput<typeof describeLimitsCommand>,
+  ) => Promise<CommandOutput<typeof describeLimitsCommand>>;
 };
 
 // =====================
@@ -221,11 +292,7 @@ const executeCommand = async (
   const body = JSON.stringify(payload);
   const target = `DynamoDB_20120810.${command}`;
 
-  const { headers, body: signedBody } = await deps.signer(
-    body,
-    target,
-    config.host,
-  );
+  const { headers, body: signedBody } = await deps.signer(body, target, config.host);
 
   const res = await deps.fetch(config.endpoint, {
     method: "POST",
@@ -249,16 +316,14 @@ const executeCommand = async (
 /**
  * Generate client method from command definition
  */
-const createCommandMethod = <TInput, TOutput>(
-  commandDef: CommandDefinition<string, TInput, TOutput>,
-  config: ClientConfig,
-  deps: ClientDependencies,
-): ((input: TInput) => Promise<TOutput>) => {
-  return async (input: TInput): Promise<TOutput> => {
-    const result = await executeCommand(config, deps, commandDef.name, input as Record<string, unknown>);
-    return result as TOutput;
-  };
-};
+const createCommandMethod =
+  <TInput, TOutput>(
+    commandDef: CommandDefinition<string, TInput, TOutput>,
+    config: ClientConfig,
+    deps: ClientDependencies,
+  ): ((input: TInput) => Promise<TOutput>) =>
+  (input: TInput): Promise<TOutput> =>
+    executeCommand(config, deps, commandDef.name, input as Record<string, unknown>) as Promise<TOutput>;
 
 // =====================
 // Client creation
@@ -267,10 +332,7 @@ const createCommandMethod = <TInput, TOutput>(
 /**
  * Create DynamoDB client
  */
-export const createClient = (
-  config: ClientConfig,
-  deps: ClientDependencies,
-): DynamoDBClient => {
+export const createClient = (config: ClientConfig, deps: ClientDependencies): DynamoDBClient => {
   return {
     // Table operations
     listTables: createCommandMethod(listTablesCommand, config, deps),

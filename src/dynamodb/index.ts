@@ -38,8 +38,8 @@ export const createClient = (options: CreateClientOptions): DynamoDBClient => {
 
   const defaultDeps: ClientDependencies = {
     fetch: globalThis.fetch.bind(globalThis),
-    signer: async (body, target, host) => {
-      return await signDynamoRequest(
+    signer: (body, target, host) =>
+      signDynamoRequest(
         {
           region,
           service: "dynamodb",
@@ -48,8 +48,7 @@ export const createClient = (options: CreateClientOptions): DynamoDBClient => {
         body,
         target,
         host,
-      );
-    },
+      ),
   };
 
   const finalDeps: ClientDependencies = {
