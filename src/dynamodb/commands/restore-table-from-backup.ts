@@ -10,7 +10,7 @@ import type {
   ProvisionedThroughput,
   OnDemandThroughput,
   SSESpecification,
-} from "../domains/table";
+} from "../context/table";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "RestoreTableFromBackup" as const;

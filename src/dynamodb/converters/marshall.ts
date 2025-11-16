@@ -2,7 +2,7 @@
  * @file Convert JavaScript values to DynamoDB AttributeValue format
  */
 
-import type { AttributeValue } from "../domains/record-item";
+import type { AttributeValue } from "../context/record-item";
 
 /**
  * Convert JavaScript value to DynamoDB AttributeValue format

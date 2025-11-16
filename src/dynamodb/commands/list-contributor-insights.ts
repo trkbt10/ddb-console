@@ -2,7 +2,7 @@
  * @file ListContributorInsights command type definitions
  */
 
-import type { ContributorInsightsStatus } from "../domains/contributor-insights";
+import type { ContributorInsightsStatus } from "../context/contributor-insights";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "ListContributorInsights" as const;

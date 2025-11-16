@@ -2,7 +2,7 @@
  * @file DescribeImport command type definitions
  */
 
-import type { ImportTableDescription } from "../domains/import";
+import type { ImportTableDescription } from "../context/import";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "DescribeImport" as const;

@@ -2,7 +2,7 @@
  * @file UpdateGlobalTable command type definitions
  */
 
-import type { GlobalTableDescription } from "../domains/global-table";
+import type { GlobalTableDescription } from "../context/global-table";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "UpdateGlobalTable" as const;

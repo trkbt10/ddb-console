@@ -2,7 +2,7 @@
  * @file TransactWriteItems command type definitions
  */
 
-import type { AttributeValue, ReturnConsumedCapacity, ReturnItemCollectionMetrics, ReturnValuesOnConditionCheckFailure } from "../domains/record-item";
+import type { AttributeValue, ReturnConsumedCapacity, ReturnItemCollectionMetrics, ReturnValuesOnConditionCheckFailure } from "../context/record-item";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "TransactWriteItems" as const;

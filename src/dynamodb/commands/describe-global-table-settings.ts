@@ -2,7 +2,7 @@
  * @file DescribeGlobalTableSettings command type definitions
  */
 
-import type { ReplicaSettingsDescription } from "../domains/global-table";
+import type { ReplicaSettingsDescription } from "../context/global-table";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "DescribeGlobalTableSettings" as const;

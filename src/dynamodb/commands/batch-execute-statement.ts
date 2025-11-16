@@ -2,7 +2,7 @@
  * @file BatchExecuteStatement command type definitions
  */
 
-import type { AttributeValue, ReturnConsumedCapacity, ReturnValuesOnConditionCheckFailure } from "../domains/record-item";
+import type { AttributeValue, ReturnConsumedCapacity, ReturnValuesOnConditionCheckFailure } from "../context/record-item";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "BatchExecuteStatement" as const;

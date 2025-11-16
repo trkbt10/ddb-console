@@ -2,8 +2,8 @@
  * @file ExecuteTransaction command type definitions
  */
 
-import type { AttributeValue, ReturnConsumedCapacity, ReturnValuesOnConditionCheckFailure } from "../domains/record-item";
-import type { ItemResponse } from "../domains/transaction";
+import type { AttributeValue, ReturnConsumedCapacity, ReturnValuesOnConditionCheckFailure } from "../context/record-item";
+import type { ItemResponse } from "../context/transaction";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "ExecuteTransaction" as const;

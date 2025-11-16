@@ -2,7 +2,7 @@
  * @file Scan command type definitions
  */
 
-import type { AttributeValue, Select } from "../domains/record-item";
+import type { AttributeValue, Select } from "../context/record-item";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "Scan" as const;

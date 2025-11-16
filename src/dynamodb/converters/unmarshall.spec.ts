@@ -2,7 +2,7 @@
  * @file Tests for unmarshall functions
  */
 
-import type { AttributeValue } from "../domains/record-item";
+import type { AttributeValue } from "../context/record-item";
 import { unmarshall, unmarshallItem } from "./unmarshall";
 
 describe("unmarshall", () => {

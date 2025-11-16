@@ -2,7 +2,7 @@
  * @file ExportTableToPointInTime command type definitions
  */
 
-import type { ExportDescription } from "../domains/export";
+import type { ExportDescription } from "../context/export";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "ExportTableToPointInTime" as const;

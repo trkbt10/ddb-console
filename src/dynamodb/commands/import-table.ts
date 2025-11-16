@@ -2,7 +2,7 @@
  * @file ImportTable command type definitions
  */
 
-import type { ImportTableDescription } from "../domains/import";
+import type { ImportTableDescription } from "../context/import";
 import type {
   AttributeDefinition,
   KeySchemaElement,
@@ -11,7 +11,7 @@ import type {
   OnDemandThroughput,
   SSESpecification,
   Projection,
-} from "../domains/table";
+} from "../context/table";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "ImportTable" as const;

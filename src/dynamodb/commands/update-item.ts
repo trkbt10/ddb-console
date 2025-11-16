@@ -2,7 +2,7 @@
  * @file UpdateItem command type definitions
  */
 
-import type { AttributeValue, ReturnValues, ReturnConsumedCapacity, ReturnItemCollectionMetrics } from "../domains/record-item";
+import type { AttributeValue, ReturnValues, ReturnConsumedCapacity, ReturnItemCollectionMetrics } from "../context/record-item";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "UpdateItem" as const;

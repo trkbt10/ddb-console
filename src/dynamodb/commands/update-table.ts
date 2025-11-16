@@ -12,7 +12,7 @@ import type {
   BillingMode,
   TableClass,
   TableDescription,
-} from "../domains/table";
+} from "../context/table";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "UpdateTable" as const;

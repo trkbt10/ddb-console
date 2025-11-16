@@ -2,7 +2,7 @@
  * @file DeleteTable command type definitions
  */
 
-import type { TableDescription } from "../domains/table";
+import type { TableDescription } from "../context/table";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "DeleteTable" as const;

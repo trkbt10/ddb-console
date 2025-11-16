@@ -2,7 +2,7 @@
  * @file DisableKinesisStreamingDestination command type definitions
  */
 
-import type { DestinationStatus, EnableKinesisStreamingConfiguration } from "../domains/kinesis-streaming";
+import type { DestinationStatus, EnableKinesisStreamingConfiguration } from "../context/kinesis-streaming";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "DisableKinesisStreamingDestination" as const;

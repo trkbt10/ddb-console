@@ -2,7 +2,7 @@
  * @file DescribeContinuousBackups command type definitions
  */
 
-import type { ContinuousBackupsDescription } from "../domains/backup";
+import type { ContinuousBackupsDescription } from "../context/backup";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "DescribeContinuousBackups" as const;

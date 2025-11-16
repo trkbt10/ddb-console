@@ -2,7 +2,7 @@
  * @file DeleteBackup command type definitions
  */
 
-import type { BackupDescription } from "../domains/backup";
+import type { BackupDescription } from "../context/backup";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "DeleteBackup" as const;

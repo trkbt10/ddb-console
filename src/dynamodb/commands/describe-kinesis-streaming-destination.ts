@@ -2,7 +2,7 @@
  * @file DescribeKinesisStreamingDestination command type definitions
  */
 
-import type { DestinationStatus } from "../domains/kinesis-streaming";
+import type { DestinationStatus } from "../context/kinesis-streaming";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "DescribeKinesisStreamingDestination" as const;

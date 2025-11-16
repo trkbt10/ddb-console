@@ -2,7 +2,7 @@
  * @file ExecuteStatement command type definitions
  */
 
-import type { AttributeValue, ReturnConsumedCapacity } from "../domains/record-item";
+import type { AttributeValue, ReturnConsumedCapacity } from "../context/record-item";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "ExecuteStatement" as const;

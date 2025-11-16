@@ -2,7 +2,7 @@
  * @file TagResource command type definitions
  */
 
-import type { Tag } from "../domains/table";
+import type { Tag } from "../context/table";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "TagResource" as const;

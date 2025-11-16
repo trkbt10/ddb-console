@@ -6,7 +6,7 @@ import type {
   TableAutoScalingDescription,
   GlobalSecondaryIndexAutoScalingUpdate,
   AutoScalingSettingsUpdate,
-} from "../domains/auto-scaling";
+} from "../context/auto-scaling";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "UpdateTableReplicaAutoScaling" as const;

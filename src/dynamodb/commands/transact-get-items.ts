@@ -2,8 +2,8 @@
  * @file TransactGetItems command type definitions
  */
 
-import type { AttributeValue, ReturnConsumedCapacity } from "../domains/record-item";
-import type { ItemResponse } from "../domains/transaction";
+import type { AttributeValue, ReturnConsumedCapacity } from "../context/record-item";
+import type { ItemResponse } from "../context/transaction";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "TransactGetItems" as const;

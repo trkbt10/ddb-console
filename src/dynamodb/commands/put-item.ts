@@ -2,7 +2,7 @@
  * @file PutItem command type definitions
  */
 
-import type { AttributeValue, ReturnConsumedCapacity, ReturnItemCollectionMetrics } from "../domains/record-item";
+import type { AttributeValue, ReturnConsumedCapacity, ReturnItemCollectionMetrics } from "../context/record-item";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "PutItem" as const;

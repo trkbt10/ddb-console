@@ -2,7 +2,7 @@
  * @file DescribeTableReplicaAutoScaling command type definitions
  */
 
-import type { TableAutoScalingDescription } from "../domains/auto-scaling";
+import type { TableAutoScalingDescription } from "../context/auto-scaling";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "DescribeTableReplicaAutoScaling" as const;

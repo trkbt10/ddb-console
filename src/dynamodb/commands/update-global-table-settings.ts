@@ -2,9 +2,9 @@
  * @file UpdateGlobalTableSettings command type definitions
  */
 
-import type { BillingMode } from "../domains/table";
-import type { ReplicaSettingsDescription } from "../domains/global-table";
-import type { AutoScalingSettingsUpdate, GlobalSecondaryIndexAutoScalingUpdate } from "../domains/auto-scaling";
+import type { BillingMode } from "../context/table";
+import type { ReplicaSettingsDescription } from "../context/global-table";
+import type { AutoScalingSettingsUpdate, GlobalSecondaryIndexAutoScalingUpdate } from "../context/auto-scaling";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "UpdateGlobalTableSettings" as const;
