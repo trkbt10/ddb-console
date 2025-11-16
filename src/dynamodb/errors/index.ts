@@ -3,96 +3,70 @@
  */
 
 // Import base types and utilities
-import { DynamoDBError, createError, extractErrorName } from "./types";
+import { createDynamoDBError, extractErrorName } from "./types";
+import type { DynamoDBError, DynamoDBErrorFactory } from "./types";
 
 // Export base types and utilities
-export { DynamoDBError, createError, extractErrorName };
-export type { ErrorDefinition, ErrorMetadata, DynamoDBErrorResponse } from "./types";
+export { createDynamoDBError, extractErrorName };
+export type { DynamoDBError, DynamoDBErrorFactory, DynamoDBErrorProperties, ErrorMetadata, DynamoDBErrorResponse } from "./types";
 
-// Import all error definitions
-import conditionalCheckFailedException from "./conditional-check-failed-exception";
-import resourceNotFoundException from "./resource-not-found-exception";
-import validationException from "./validation-exception";
-import provisionedThroughputExceededException from "./provisioned-throughput-exceeded-exception";
-import resourceInUseException from "./resource-in-use-exception";
-import itemCollectionSizeLimitExceededException from "./item-collection-size-limit-exceeded-exception";
-import limitExceededException from "./limit-exceeded-exception";
-import throttlingException from "./throttling-exception";
-import requestLimitExceeded from "./request-limit-exceeded";
-import accessDeniedException from "./access-denied-exception";
-import incompleteSignatureException from "./incomplete-signature-exception";
-import missingAuthenticationTokenException from "./missing-authentication-token-exception";
-import unrecognizedClientException from "./unrecognized-client-exception";
-import replicatedWriteConflictException from "./replicated-write-conflict-exception";
-import internalServerError from "./internal-server-error";
-import serviceUnavailable from "./service-unavailable";
-import incompleteSignature from "./incomplete-signature";
-import internalFailure from "./internal-failure";
-import invalidAction from "./invalid-action";
-import invalidClientTokenId from "./invalid-client-token-id";
-import notAuthorized from "./not-authorized";
-import optInRequired from "./opt-in-required";
-import requestExpired from "./request-expired";
-import validationError from "./validation-error";
+// Import all error definitions as modules
+import * as conditionalCheckFailed from "./conditional-check-failed-exception";
+import * as resourceNotFound from "./resource-not-found-exception";
+import * as validation from "./validation-exception";
+import * as provisionedThroughputExceeded from "./provisioned-throughput-exceeded-exception";
+import * as resourceInUse from "./resource-in-use-exception";
+import * as itemCollectionSizeLimitExceeded from "./item-collection-size-limit-exceeded-exception";
+import * as limitExceeded from "./limit-exceeded-exception";
+import * as throttling from "./throttling-exception";
+import * as requestLimit from "./request-limit-exceeded";
+import * as accessDenied from "./access-denied-exception";
+import * as incompleteSignature from "./incomplete-signature-exception";
+import * as missingAuthToken from "./missing-authentication-token-exception";
+import * as unrecognizedClient from "./unrecognized-client-exception";
+import * as replicatedWriteConflict from "./replicated-write-conflict-exception";
+import * as internalServer from "./internal-server-error";
+import * as serviceUnavail from "./service-unavailable";
+import * as incompleteSig from "./incomplete-signature";
+import * as internalFail from "./internal-failure";
+import * as invalidAct from "./invalid-action";
+import * as invalidClientToken from "./invalid-client-token-id";
+import * as notAuth from "./not-authorized";
+import * as optIn from "./opt-in-required";
+import * as requestExp from "./request-expired";
+import * as validationErr from "./validation-error";
 
-// Error definitions map for efficient lookup
-const errorDefinitions = {
-  ConditionalCheckFailedException: conditionalCheckFailedException,
-  ResourceNotFoundException: resourceNotFoundException,
-  ValidationException: validationException,
-  ProvisionedThroughputExceededException: provisionedThroughputExceededException,
-  ResourceInUseException: resourceInUseException,
-  ItemCollectionSizeLimitExceededException: itemCollectionSizeLimitExceededException,
-  LimitExceededException: limitExceededException,
-  ThrottlingException: throttlingException,
-  RequestLimitExceeded: requestLimitExceeded,
-  AccessDeniedException: accessDeniedException,
-  IncompleteSignatureException: incompleteSignatureException,
-  MissingAuthenticationTokenException: missingAuthenticationTokenException,
-  UnrecognizedClientException: unrecognizedClientException,
-  ReplicatedWriteConflictException: replicatedWriteConflictException,
-  InternalServerError: internalServerError,
-  ServiceUnavailable: serviceUnavailable,
-  IncompleteSignature: incompleteSignature,
-  InternalFailure: internalFailure,
-  InvalidAction: invalidAction,
-  InvalidClientTokenId: invalidClientTokenId,
-  NotAuthorized: notAuthorized,
-  OptInRequired: optInRequired,
-  RequestExpired: requestExpired,
-  ValidationError: validationError,
-} as const;
-
-// Export individual error definitions
-export {
-  conditionalCheckFailedException,
-  resourceNotFoundException,
-  validationException,
-  provisionedThroughputExceededException,
-  resourceInUseException,
-  itemCollectionSizeLimitExceededException,
-  limitExceededException,
-  throttlingException,
-  requestLimitExceeded,
-  accessDeniedException,
-  incompleteSignatureException,
-  missingAuthenticationTokenException,
-  unrecognizedClientException,
-  replicatedWriteConflictException,
-  internalServerError,
-  serviceUnavailable,
+// Build error definitions map from modules in a single pass
+const errorModules = [
+  conditionalCheckFailed,
+  resourceNotFound,
+  validation,
+  provisionedThroughputExceeded,
+  resourceInUse,
+  itemCollectionSizeLimitExceeded,
+  limitExceeded,
+  throttling,
+  requestLimit,
+  accessDenied,
   incompleteSignature,
-  internalFailure,
-  invalidAction,
-  invalidClientTokenId,
-  notAuthorized,
-  optInRequired,
-  requestExpired,
-  validationError,
-};
+  missingAuthToken,
+  unrecognizedClient,
+  replicatedWriteConflict,
+  internalServer,
+  serviceUnavail,
+  incompleteSig,
+  internalFail,
+  invalidAct,
+  invalidClientToken,
+  notAuth,
+  optIn,
+  requestExp,
+  validationErr,
+] as const;
 
-// Export error definitions map
-export { errorDefinitions };
+export const errorDefinitions = Object.fromEntries(
+  errorModules.map(mod => [mod.ERROR_NAME, mod.default]),
+) as Record<string, DynamoDBErrorFactory>;
 
 /**
  * Parse DynamoDB error response and create appropriate error instance
@@ -107,18 +81,18 @@ export function parseDynamoDBError(response: {
     const errorResponse = JSON.parse(response.body);
     const errorName = extractErrorName(errorResponse.__type ? errorResponse.__type : "");
 
-    // Look up error definition
-    const definition = errorDefinitions[errorName as keyof typeof errorDefinitions];
+    // Look up error factory
+    const createError = errorDefinitions[errorName as keyof typeof errorDefinitions];
 
-    if (definition) {
+    if (createError) {
       const message = errorResponse.message ? errorResponse.message : "";
-      return createError(definition, message);
+      return createError(message);
     }
 
     // Unknown error type - create generic error with status code
     const errorNameFallback = errorName ? errorName : "UnknownError";
     const messageFallback = errorResponse.message ? errorResponse.message : response.statusText;
-    return new DynamoDBError(
+    return createDynamoDBError(
       errorNameFallback,
       messageFallback,
       {
@@ -128,7 +102,7 @@ export function parseDynamoDBError(response: {
     );
   } catch {
     // Failed to parse JSON - create generic error
-    return new DynamoDBError(
+    return createDynamoDBError(
       "UnknownError",
       `DynamoDB error: ${response.status} ${response.statusText} - ${response.body}`,
       {

@@ -11,60 +11,54 @@ export type ErrorMetadata = {
 };
 
 /**
- * DynamoDB error definition
+ * DynamoDB-specific error properties
  */
-export type ErrorDefinition<TName extends string> = {
-  readonly name: TName;
-  readonly metadata: ErrorMetadata;
+export type DynamoDBErrorProperties = {
+  __type: string;
+  httpStatusCode: number;
+  retryable: boolean;
 };
 
 /**
- * Base DynamoDB error class following official AWS error format
+ * DynamoDB error type (Error + DynamoDB-specific properties)
  */
-export class DynamoDBError extends Error {
-  public readonly __type: string;
-  public readonly httpStatusCode: number;
-  public readonly retryable: boolean;
+export type DynamoDBError = Error & DynamoDBErrorProperties;
 
-  constructor(
-    errorName: string,
-    message: string,
-    metadata: ErrorMetadata,
-  ) {
-    super(message);
-    this.name = errorName;
-    this.__type = `com.amazonaws.dynamodb.v20120810#${errorName}`;
-    this.httpStatusCode = metadata.httpStatusCode;
-    this.retryable = metadata.retryable;
+/**
+ * Create DynamoDB error instance
+ */
+export function createDynamoDBError(
+  errorName: string,
+  message: string,
+  metadata: ErrorMetadata,
+): DynamoDBError {
+  const error = new Error(message) as DynamoDBError;
+  error.name = errorName;
+  error.__type = `com.amazonaws.dynamodb.v20120810#${errorName}`;
+  error.httpStatusCode = metadata.httpStatusCode;
+  error.retryable = metadata.retryable;
 
-    // Maintains proper stack trace for where our error was thrown (only available on V8)
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, this.constructor);
-    }
+  // Maintains proper stack trace for where our error was thrown (only available on V8)
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(error, createDynamoDBError);
   }
+
+  return error;
 }
 
 /**
- * Helper function to define error metadata
+ * DynamoDB error factory function type
+ */
+export type DynamoDBErrorFactory = (message: string) => DynamoDBError;
+
+/**
+ * Helper function to define DynamoDB error factory
  */
 export function defineError<TName extends string>(
   name: TName,
   metadata: ErrorMetadata,
-): ErrorDefinition<TName> {
-  return {
-    name,
-    metadata,
-  };
-}
-
-/**
- * Helper function to create error instance
- */
-export function createError<TName extends string>(
-  definition: ErrorDefinition<TName>,
-  message: string,
-): DynamoDBError {
-  return new DynamoDBError(definition.name, message, definition.metadata);
+): DynamoDBErrorFactory {
+  return (message: string) => createDynamoDBError(name, message, metadata);
 }
 
 /**
