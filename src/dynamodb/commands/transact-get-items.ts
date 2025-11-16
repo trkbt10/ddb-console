@@ -3,10 +3,14 @@
  */
 
 import type { AttributeValue, ReturnConsumedCapacity } from "../domains/record-item";
+import type { ItemResponse } from "../domains/transaction";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "TransactGetItems" as const;
 
+/**
+ * Transact get item
+ */
 export type TransactGetItem = {
   Get: {
     Key: Record<string, AttributeValue>;
@@ -19,10 +23,6 @@ export type TransactGetItem = {
 export type TransactGetItemsInput = {
   TransactItems: TransactGetItem[];
   ReturnConsumedCapacity?: ReturnConsumedCapacity;
-};
-
-export type ItemResponse = {
-  Item?: Record<string, AttributeValue>;
 };
 
 export type TransactGetItemsOutput = {

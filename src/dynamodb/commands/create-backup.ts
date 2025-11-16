@@ -6,19 +6,32 @@ import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "CreateBackup" as const;
 
-export type CreateBackupInput = {
-  TableName: string;
-  BackupName: string;
-};
+/**
+ * Backup status
+ */
+export type BackupStatus = "CREATING" | "DELETED" | "AVAILABLE";
 
+/**
+ * Backup type
+ */
+export type BackupType = "USER" | "SYSTEM" | "AWS_BACKUP";
+
+/**
+ * Backup details
+ */
 export type BackupDetails = {
   BackupArn: string;
   BackupName: string;
   BackupSizeBytes?: number;
-  BackupStatus: "CREATING" | "DELETED" | "AVAILABLE";
-  BackupType: "USER" | "SYSTEM" | "AWS_BACKUP";
+  BackupStatus: BackupStatus;
+  BackupType: BackupType;
   BackupCreationDateTime: number;
   BackupExpiryDateTime?: number;
+};
+
+export type CreateBackupInput = {
+  TableName: string;
+  BackupName: string;
 };
 
 export type CreateBackupOutput = {

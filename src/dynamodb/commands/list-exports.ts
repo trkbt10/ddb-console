@@ -6,16 +6,29 @@ import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "ListExports" as const;
 
+/**
+ * Export status
+ */
+export type ExportStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED";
+
+/**
+ * Export type
+ */
+export type ExportType = "FULL_EXPORT" | "INCREMENTAL_EXPORT";
+
+/**
+ * Export summary
+ */
+export type ExportSummary = {
+  ExportArn?: string;
+  ExportStatus?: ExportStatus;
+  ExportType?: ExportType;
+};
+
 export type ListExportsInput = {
   TableArn?: string;
   MaxResults?: number;
   NextToken?: string;
-};
-
-export type ExportSummary = {
-  ExportArn?: string;
-  ExportStatus?: "IN_PROGRESS" | "COMPLETED" | "FAILED";
-  ExportType?: "FULL_EXPORT" | "INCREMENTAL_EXPORT";
 };
 
 export type ListExportsOutput = {

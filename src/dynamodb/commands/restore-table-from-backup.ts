@@ -2,7 +2,15 @@
  * @file RestoreTableFromBackup command type definitions
  */
 
-import type { TableDescription } from "../domains/table";
+import type {
+  TableDescription,
+  BillingMode,
+  KeySchemaElement,
+  Projection,
+  ProvisionedThroughput,
+  OnDemandThroughput,
+  SSESpecification,
+} from "../domains/table";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "RestoreTableFromBackup" as const;
@@ -10,50 +18,22 @@ export const COMMAND_NAME = "RestoreTableFromBackup" as const;
 export type RestoreTableFromBackupInput = {
   TargetTableName: string;
   BackupArn: string;
-  BillingModeOverride?: "PROVISIONED" | "PAY_PER_REQUEST";
+  BillingModeOverride?: BillingMode;
   GlobalSecondaryIndexOverride?: Array<{
     IndexName: string;
-    KeySchema: Array<{
-      AttributeName: string;
-      KeyType: "HASH" | "RANGE";
-    }>;
-    Projection: {
-      ProjectionType?: "ALL" | "KEYS_ONLY" | "INCLUDE";
-      NonKeyAttributes?: string[];
-    };
-    ProvisionedThroughput?: {
-      ReadCapacityUnits: number;
-      WriteCapacityUnits: number;
-    };
-    OnDemandThroughput?: {
-      MaxReadRequestUnits?: number;
-      MaxWriteRequestUnits?: number;
-    };
+    KeySchema: KeySchemaElement[];
+    Projection: Projection;
+    ProvisionedThroughput?: ProvisionedThroughput;
+    OnDemandThroughput?: OnDemandThroughput;
   }>;
   LocalSecondaryIndexOverride?: Array<{
     IndexName: string;
-    KeySchema: Array<{
-      AttributeName: string;
-      KeyType: "HASH" | "RANGE";
-    }>;
-    Projection: {
-      ProjectionType?: "ALL" | "KEYS_ONLY" | "INCLUDE";
-      NonKeyAttributes?: string[];
-    };
+    KeySchema: KeySchemaElement[];
+    Projection: Projection;
   }>;
-  ProvisionedThroughputOverride?: {
-    ReadCapacityUnits: number;
-    WriteCapacityUnits: number;
-  };
-  OnDemandThroughputOverride?: {
-    MaxReadRequestUnits?: number;
-    MaxWriteRequestUnits?: number;
-  };
-  SSESpecificationOverride?: {
-    Enabled?: boolean;
-    SSEType?: "AES256" | "KMS";
-    KMSMasterKeyId?: string;
-  };
+  ProvisionedThroughputOverride?: ProvisionedThroughput;
+  OnDemandThroughputOverride?: OnDemandThroughput;
+  SSESpecificationOverride?: SSESpecification;
 };
 
 export type RestoreTableFromBackupOutput = {

@@ -6,17 +6,20 @@ import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "ListGlobalTables" as const;
 
-export type ListGlobalTablesInput = {
-  ExclusiveStartGlobalTableName?: string;
-  Limit?: number;
-  RegionName?: string;
-};
-
+/**
+ * Global table (summary)
+ */
 export type GlobalTable = {
   GlobalTableName?: string;
   ReplicationGroup?: Array<{
     RegionName?: string;
   }>;
+};
+
+export type ListGlobalTablesInput = {
+  ExclusiveStartGlobalTableName?: string;
+  Limit?: number;
+  RegionName?: string;
 };
 
 export type ListGlobalTablesOutput = {

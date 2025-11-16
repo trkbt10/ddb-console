@@ -6,21 +6,21 @@ import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "UpdateTimeToLive" as const;
 
-export type UpdateTimeToLiveInput = {
-  TableName: string;
-  TimeToLiveSpecification: {
-    Enabled: boolean;
-    AttributeName: string;
-  };
+/**
+ * Time to live specification
+ */
+export type TimeToLiveSpecification = {
+  Enabled: boolean;
+  AttributeName: string;
 };
 
-export type TimeToLiveDescription = {
-  TimeToLiveStatus?: "ENABLING" | "DISABLING" | "ENABLED" | "DISABLED";
-  AttributeName?: string;
+export type UpdateTimeToLiveInput = {
+  TableName: string;
+  TimeToLiveSpecification: TimeToLiveSpecification;
 };
 
 export type UpdateTimeToLiveOutput = {
-  TimeToLiveSpecification?: TimeToLiveDescription;
+  TimeToLiveSpecification?: TimeToLiveSpecification;
 };
 
 export default defineCommand<

@@ -2,21 +2,13 @@
  * @file DescribeContinuousBackups command type definitions
  */
 
+import type { ContinuousBackupsDescription } from "../domains/backup";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "DescribeContinuousBackups" as const;
 
 export type DescribeContinuousBackupsInput = {
   TableName: string;
-};
-
-export type ContinuousBackupsDescription = {
-  ContinuousBackupsStatus: "ENABLED" | "DISABLED";
-  PointInTimeRecoveryDescription?: {
-    PointInTimeRecoveryStatus?: "ENABLED" | "DISABLED";
-    EarliestRestorableDateTime?: number;
-    LatestRestorableDateTime?: number;
-  };
 };
 
 export type DescribeContinuousBackupsOutput = {

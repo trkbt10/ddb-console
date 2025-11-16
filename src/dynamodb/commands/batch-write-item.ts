@@ -7,13 +7,17 @@ import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "BatchWriteItem" as const;
 
+export type PutRequest = {
+  Item: Record<string, AttributeValue>;
+};
+
+export type DeleteRequest = {
+  Key: Record<string, AttributeValue>;
+};
+
 export type WriteRequest = {
-  PutRequest?: {
-    Item: Record<string, AttributeValue>;
-  };
-  DeleteRequest?: {
-    Key: Record<string, AttributeValue>;
-  };
+  PutRequest?: PutRequest;
+  DeleteRequest?: DeleteRequest;
 };
 
 export type BatchWriteItemInput = {

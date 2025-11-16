@@ -6,15 +6,17 @@ import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "ListImports" as const;
 
-export type ListImportsInput = {
-  TableArn?: string;
-  PageSize?: number;
-  NextToken?: string;
-};
+/**
+ * Import status
+ */
+export type ImportStatus = "IN_PROGRESS" | "COMPLETED" | "CANCELLING" | "CANCELLED" | "FAILED";
 
+/**
+ * Import summary
+ */
 export type ImportSummary = {
   ImportArn?: string;
-  ImportStatus?: "IN_PROGRESS" | "COMPLETED" | "CANCELLING" | "CANCELLED" | "FAILED";
+  ImportStatus?: ImportStatus;
   TableArn?: string;
   S3BucketSource?: {
     S3BucketOwner?: string;
@@ -25,6 +27,12 @@ export type ImportSummary = {
   InputFormat?: "DYNAMODB_JSON" | "ION" | "CSV";
   StartTime?: number;
   EndTime?: number;
+};
+
+export type ListImportsInput = {
+  TableArn?: string;
+  PageSize?: number;
+  NextToken?: string;
 };
 
 export type ListImportsOutput = {

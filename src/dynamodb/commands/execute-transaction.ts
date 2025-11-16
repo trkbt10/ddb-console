@@ -2,19 +2,19 @@
  * @file ExecuteTransaction command type definitions
  */
 
-import type { AttributeValue, ReturnConsumedCapacity } from "../domains/record-item";
+import type { AttributeValue, ReturnConsumedCapacity, ReturnValuesOnConditionCheckFailure } from "../domains/record-item";
+import type { ItemResponse } from "../domains/transaction";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "ExecuteTransaction" as const;
 
+/**
+ * Parameterized statement
+ */
 export type ParameterizedStatement = {
   Statement: string;
   Parameters?: AttributeValue[];
-  ReturnValuesOnConditionCheckFailure?: "ALL_OLD" | "NONE";
-};
-
-export type ItemResponse = {
-  Item?: Record<string, AttributeValue>;
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 };
 
 export type ExecuteTransactionInput = {

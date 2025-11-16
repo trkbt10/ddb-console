@@ -1,11 +1,12 @@
 /**
- * @file ExportTableToPointInTime command type definitions
+ * @file DynamoDB Export Domain Types
+ * Type definitions for export entities
  */
 
-import type { ExportDescription } from "../domains/export";
-import { defineCommand } from "./types";
-
-export const COMMAND_NAME = "ExportTableToPointInTime" as const;
+/**
+ * Export status
+ */
+export type ExportStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED";
 
 /**
  * Export format
@@ -18,6 +19,11 @@ export type ExportFormat = "DYNAMODB_JSON" | "ION";
 export type ExportType = "FULL_EXPORT" | "INCREMENTAL_EXPORT";
 
 /**
+ * Export view type
+ */
+export type ExportViewType = "NEW_IMAGE" | "NEW_AND_OLD_IMAGES";
+
+/**
  * S3 SSE algorithm
  */
 export type S3SseAlgorithm = "AES256" | "KMS";
@@ -28,29 +34,32 @@ export type S3SseAlgorithm = "AES256" | "KMS";
 export type IncrementalExportSpecification = {
   ExportFromTime?: number;
   ExportToTime?: number;
-  ExportViewType?: "NEW_IMAGE" | "NEW_AND_OLD_IMAGES";
+  ExportViewType?: ExportViewType;
 };
 
-export type ExportTableToPointInTimeInput = {
-  TableArn: string;
+/**
+ * Export description
+ */
+export type ExportDescription = {
+  ExportArn?: string;
+  ExportStatus?: ExportStatus;
+  StartTime?: number;
+  EndTime?: number;
+  ExportManifest?: string;
+  TableArn?: string;
+  TableId?: string;
   ExportTime?: number;
   ClientToken?: string;
-  S3Bucket: string;
+  S3Bucket?: string;
   S3BucketOwner?: string;
   S3Prefix?: string;
   S3SseAlgorithm?: S3SseAlgorithm;
   S3SseKmsKeyId?: string;
+  FailureCode?: string;
+  FailureMessage?: string;
   ExportFormat?: ExportFormat;
+  BilledSizeBytes?: number;
+  ItemCount?: number;
   ExportType?: ExportType;
   IncrementalExportSpecification?: IncrementalExportSpecification;
 };
-
-export type ExportTableToPointInTimeOutput = {
-  ExportDescription?: ExportDescription;
-};
-
-export default defineCommand<
-  typeof COMMAND_NAME,
-  ExportTableToPointInTimeInput,
-  ExportTableToPointInTimeOutput
->(COMMAND_NAME);

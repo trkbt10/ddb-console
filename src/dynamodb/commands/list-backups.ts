@@ -6,15 +6,19 @@ import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "ListBackups" as const;
 
-export type ListBackupsInput = {
-  TableName?: string;
-  Limit?: number;
-  TimeRangeLowerBound?: number;
-  TimeRangeUpperBound?: number;
-  ExclusiveStartBackupArn?: string;
-  BackupType?: "USER" | "SYSTEM" | "AWS_BACKUP" | "ALL";
-};
+/**
+ * Backup status
+ */
+export type BackupStatus = "CREATING" | "DELETED" | "AVAILABLE";
 
+/**
+ * Backup type
+ */
+export type BackupType = "USER" | "SYSTEM" | "AWS_BACKUP";
+
+/**
+ * Backup summary
+ */
 export type BackupSummary = {
   TableName?: string;
   TableId?: string;
@@ -23,9 +27,18 @@ export type BackupSummary = {
   BackupName?: string;
   BackupCreationDateTime?: number;
   BackupExpiryDateTime?: number;
-  BackupStatus?: "CREATING" | "DELETED" | "AVAILABLE";
-  BackupType?: "USER" | "SYSTEM" | "AWS_BACKUP";
+  BackupStatus?: BackupStatus;
+  BackupType?: BackupType;
   BackupSizeBytes?: number;
+};
+
+export type ListBackupsInput = {
+  TableName?: string;
+  Limit?: number;
+  TimeRangeLowerBound?: number;
+  TimeRangeUpperBound?: number;
+  ExclusiveStartBackupArn?: string;
+  BackupType?: BackupType | "ALL";
 };
 
 export type ListBackupsOutput = {

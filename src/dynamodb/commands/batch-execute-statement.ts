@@ -2,26 +2,37 @@
  * @file BatchExecuteStatement command type definitions
  */
 
-import type { AttributeValue, ReturnConsumedCapacity } from "../domains/record-item";
+import type { AttributeValue, ReturnConsumedCapacity, ReturnValuesOnConditionCheckFailure } from "../domains/record-item";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "BatchExecuteStatement" as const;
 
+/**
+ * Batch statement error
+ */
+export type BatchStatementError = {
+  Code?: string;
+  Message?: string;
+  Item?: Record<string, AttributeValue>;
+};
+
+/**
+ * Batch statement request
+ */
 export type BatchStatementRequest = {
   Statement: string;
   Parameters?: AttributeValue[];
   ConsistentRead?: boolean;
-  ReturnValuesOnConditionCheckFailure?: "ALL_OLD" | "NONE";
+  ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 };
 
+/**
+ * Batch statement response
+ */
 export type BatchStatementResponse = {
-  Item?: Record<string, AttributeValue>;
+  Error?: BatchStatementError;
   TableName?: string;
-  Error?: {
-    Code?: string;
-    Message?: string;
-    Item?: Record<string, AttributeValue>;
-  };
+  Item?: Record<string, AttributeValue>;
 };
 
 export type BatchExecuteStatementInput = {

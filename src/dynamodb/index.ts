@@ -68,8 +68,4 @@ export function createClient(options: CreateClientOptions): DynamoDBClient {
   return createDynamoDBClient(config, finalDeps);
 }
 
-// =====================
-// Exported types
-// =====================
-
 export type { DynamoDBClient } from "./client";

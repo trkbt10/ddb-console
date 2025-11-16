@@ -7,6 +7,9 @@ import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "TransactWriteItems" as const;
 
+/**
+ * Condition check
+ */
 export type ConditionCheck = {
   Key: Record<string, AttributeValue>;
   TableName: string;
@@ -16,6 +19,9 @@ export type ConditionCheck = {
   ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 };
 
+/**
+ * Put (for transactions)
+ */
 export type Put = {
   Item: Record<string, AttributeValue>;
   TableName: string;
@@ -25,6 +31,9 @@ export type Put = {
   ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 };
 
+/**
+ * Delete (for transactions)
+ */
 export type Delete = {
   Key: Record<string, AttributeValue>;
   TableName: string;
@@ -34,6 +43,9 @@ export type Delete = {
   ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 };
 
+/**
+ * Update (for transactions)
+ */
 export type Update = {
   Key: Record<string, AttributeValue>;
   TableName: string;
@@ -44,6 +56,9 @@ export type Update = {
   ReturnValuesOnConditionCheckFailure?: ReturnValuesOnConditionCheckFailure;
 };
 
+/**
+ * Transact write item
+ */
 export type TransactWriteItem = {
   ConditionCheck?: ConditionCheck;
   Put?: Put;

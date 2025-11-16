@@ -2,9 +2,18 @@
  * @file DescribeContributorInsights command type definitions
  */
 
+import type { ContributorInsightsStatus } from "../domains/contributor-insights";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "DescribeContributorInsights" as const;
+
+/**
+ * Failure exception
+ */
+export type FailureException = {
+  ExceptionName?: string;
+  ExceptionDescription?: string;
+};
 
 export type DescribeContributorInsightsInput = {
   TableName: string;
@@ -15,12 +24,9 @@ export type DescribeContributorInsightsOutput = {
   TableName?: string;
   IndexName?: string;
   ContributorInsightsRuleList?: string[];
-  ContributorInsightsStatus?: "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | "FAILED";
+  ContributorInsightsStatus?: ContributorInsightsStatus;
   LastUpdateDateTime?: number;
-  FailureException?: {
-    ExceptionName?: string;
-    ExceptionDescription?: string;
-  };
+  FailureException?: FailureException;
 };
 
 export default defineCommand<

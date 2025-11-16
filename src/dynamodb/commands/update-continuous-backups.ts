@@ -2,6 +2,7 @@
  * @file UpdateContinuousBackups command type definitions
  */
 
+import type { ContinuousBackupsDescription } from "../domains/backup";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "UpdateContinuousBackups" as const;
@@ -10,15 +11,6 @@ export type UpdateContinuousBackupsInput = {
   TableName: string;
   PointInTimeRecoverySpecification: {
     PointInTimeRecoveryEnabled: boolean;
-  };
-};
-
-export type ContinuousBackupsDescription = {
-  ContinuousBackupsStatus: "ENABLED" | "DISABLED";
-  PointInTimeRecoveryDescription?: {
-    PointInTimeRecoveryStatus?: "ENABLED" | "DISABLED";
-    EarliestRestorableDateTime?: number;
-    LatestRestorableDateTime?: number;
   };
 };
 

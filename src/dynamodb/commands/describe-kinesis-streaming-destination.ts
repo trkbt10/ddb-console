@@ -2,19 +2,23 @@
  * @file DescribeKinesisStreamingDestination command type definitions
  */
 
+import type { DestinationStatus, EnableKinesisStreamingConfiguration } from "../domains/kinesis-streaming";
 import { defineCommand } from "./types";
 
 export const COMMAND_NAME = "DescribeKinesisStreamingDestination" as const;
 
-export type DescribeKinesisStreamingDestinationInput = {
-  TableName: string;
-};
-
+/**
+ * Kinesis data stream destination
+ */
 export type KinesisDataStreamDestination = {
   StreamArn?: string;
-  DestinationStatus?: "ENABLING" | "ACTIVE" | "DISABLING" | "DISABLED" | "ENABLE_FAILED" | "UPDATING";
+  DestinationStatus?: DestinationStatus;
   DestinationStatusDescription?: string;
   ApproximateCreationDateTimePrecision?: "MILLISECOND" | "MICROSECOND";
+};
+
+export type DescribeKinesisStreamingDestinationInput = {
+  TableName: string;
 };
 
 export type DescribeKinesisStreamingDestinationOutput = {

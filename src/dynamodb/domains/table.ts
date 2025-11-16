@@ -51,6 +51,14 @@ export type ProvisionedThroughput = {
 };
 
 /**
+ * On-demand throughput
+ */
+export type OnDemandThroughput = {
+  MaxReadRequestUnits?: number;
+  MaxWriteRequestUnits?: number;
+};
+
+/**
  * Local secondary index
  */
 export type LocalSecondaryIndex = {
