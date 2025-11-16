@@ -3,6 +3,17 @@
  * Type definitions for backup and restore entities
  */
 
+import type {
+  KeySchemaElement,
+  ProvisionedThroughput,
+  OnDemandThroughput,
+  BillingMode,
+  Projection,
+  StreamViewType,
+  SSEStatus,
+  SSEType,
+} from "./table";
+
 /**
  * Backup status
  */
@@ -26,12 +37,12 @@ export type SourceTableDetails = {
   TableId: string;
   TableArn?: string;
   TableSizeBytes?: number;
-  KeySchema: Array<import("./table").KeySchemaElement>;
+  KeySchema: Array<KeySchemaElement>;
   TableCreationDateTime: number;
-  ProvisionedThroughput?: import("./table").ProvisionedThroughput;
-  OnDemandThroughput?: import("./table").OnDemandThroughput;
+  ProvisionedThroughput?: ProvisionedThroughput;
+  OnDemandThroughput?: OnDemandThroughput;
   ItemCount?: number;
-  BillingMode?: import("./table").BillingMode;
+  BillingMode?: BillingMode;
 };
 
 /**
@@ -40,27 +51,27 @@ export type SourceTableDetails = {
 export type SourceTableFeatureDetails = {
   LocalSecondaryIndexes?: Array<{
     IndexName: string;
-    KeySchema: Array<import("./table").KeySchemaElement>;
-    Projection: import("./table").Projection;
+    KeySchema: Array<KeySchemaElement>;
+    Projection: Projection;
   }>;
   GlobalSecondaryIndexes?: Array<{
     IndexName: string;
-    KeySchema: Array<import("./table").KeySchemaElement>;
-    Projection: import("./table").Projection;
-    ProvisionedThroughput?: import("./table").ProvisionedThroughput;
-    OnDemandThroughput?: import("./table").OnDemandThroughput;
+    KeySchema: Array<KeySchemaElement>;
+    Projection: Projection;
+    ProvisionedThroughput?: ProvisionedThroughput;
+    OnDemandThroughput?: OnDemandThroughput;
   }>;
   StreamDescription?: {
     StreamEnabled: boolean;
-    StreamViewType?: import("./table").StreamViewType;
+    StreamViewType?: StreamViewType;
   };
   TimeToLiveDescription?: {
     TimeToLiveStatus: "ENABLING" | "DISABLING" | "ENABLED" | "DISABLED";
     AttributeName?: string;
   };
   SSEDescription?: {
-    Status?: import("./table").SSEStatus;
-    SSEType?: import("./table").SSEType;
+    Status?: SSEStatus;
+    SSEType?: SSEType;
     KMSMasterKeyArn?: string;
   };
 };

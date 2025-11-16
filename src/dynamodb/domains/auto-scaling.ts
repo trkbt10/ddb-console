@@ -3,6 +3,8 @@
  * Type definitions for auto-scaling entities
  */
 
+import type { IndexStatus, ReplicaStatus, TableStatus } from "./table";
+
 /**
  * Target tracking scaling policy configuration
  */
@@ -51,7 +53,7 @@ export type AutoScalingSettingsUpdate = {
  */
 export type ReplicaGlobalSecondaryIndexAutoScalingDescription = {
   IndexName?: string;
-  IndexStatus?: import("./table").IndexStatus;
+  IndexStatus?: IndexStatus;
   ProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
   ProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
 };
@@ -72,7 +74,7 @@ export type ReplicaAutoScalingDescription = {
   GlobalSecondaryIndexes?: ReplicaGlobalSecondaryIndexAutoScalingDescription[];
   ReplicaProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
   ReplicaProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
-  ReplicaStatus?: import("./table").ReplicaStatus;
+  ReplicaStatus?: ReplicaStatus;
 };
 
 /**
@@ -80,6 +82,6 @@ export type ReplicaAutoScalingDescription = {
  */
 export type TableAutoScalingDescription = {
   TableName?: string;
-  TableStatus?: import("./table").TableStatus;
+  TableStatus?: TableStatus;
   Replicas?: ReplicaAutoScalingDescription[];
 };

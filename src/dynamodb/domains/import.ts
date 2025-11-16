@@ -3,6 +3,16 @@
  * Type definitions for import entities
  */
 
+import type {
+  AttributeDefinition,
+  KeySchemaElement,
+  BillingMode,
+  ProvisionedThroughput,
+  OnDemandThroughput,
+  SSESpecification,
+  Projection,
+} from "./table";
+
 /**
  * Import status
  */
@@ -34,18 +44,18 @@ export type ImportTableDescription = {
   InputCompressionType?: "GZIP" | "ZSTD" | "NONE";
   TableCreationParameters?: {
     TableName: string;
-    AttributeDefinitions: Array<import("./table").AttributeDefinition>;
-    KeySchema: Array<import("./table").KeySchemaElement>;
-    BillingMode?: import("./table").BillingMode;
-    ProvisionedThroughput?: import("./table").ProvisionedThroughput;
-    OnDemandThroughput?: import("./table").OnDemandThroughput;
-    SSESpecification?: import("./table").SSESpecification;
+    AttributeDefinitions: Array<AttributeDefinition>;
+    KeySchema: Array<KeySchemaElement>;
+    BillingMode?: BillingMode;
+    ProvisionedThroughput?: ProvisionedThroughput;
+    OnDemandThroughput?: OnDemandThroughput;
+    SSESpecification?: SSESpecification;
     GlobalSecondaryIndexes?: Array<{
       IndexName: string;
-      KeySchema: Array<import("./table").KeySchemaElement>;
-      Projection: import("./table").Projection;
-      ProvisionedThroughput?: import("./table").ProvisionedThroughput;
-      OnDemandThroughput?: import("./table").OnDemandThroughput;
+      KeySchema: Array<KeySchemaElement>;
+      Projection: Projection;
+      ProvisionedThroughput?: ProvisionedThroughput;
+      OnDemandThroughput?: OnDemandThroughput;
     }>;
   };
   StartTime?: number;

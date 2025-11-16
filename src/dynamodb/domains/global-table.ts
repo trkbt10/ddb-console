@@ -3,6 +3,14 @@
  * Type definitions for global table entities
  */
 
+import type {
+  BillingMode,
+  IndexStatus,
+  ReplicaStatus,
+  TableClassSummary,
+} from "./table";
+import type { AutoScalingSettingsDescription } from "./auto-scaling";
+
 /**
  * Global table status
  */
@@ -12,7 +20,7 @@ export type GlobalTableStatus = "CREATING" | "ACTIVE" | "DELETING" | "UPDATING";
  * Replica billing mode summary
  */
 export type ReplicaBillingModeSummary = {
-  BillingMode?: import("./table").BillingMode;
+  BillingMode?: BillingMode;
   LastUpdateToPayPerRequestDateTime?: number;
 };
 
@@ -21,11 +29,11 @@ export type ReplicaBillingModeSummary = {
  */
 export type ReplicaGlobalSecondaryIndexSettingsDescription = {
   IndexName: string;
-  IndexStatus?: import("./table").IndexStatus;
+  IndexStatus?: IndexStatus;
   ProvisionedReadCapacityUnits?: number;
-  ProvisionedReadCapacityAutoScalingSettings?: import("./auto-scaling").AutoScalingSettingsDescription;
+  ProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
   ProvisionedWriteCapacityUnits?: number;
-  ProvisionedWriteCapacityAutoScalingSettings?: import("./auto-scaling").AutoScalingSettingsDescription;
+  ProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
 };
 
 /**
@@ -33,14 +41,14 @@ export type ReplicaGlobalSecondaryIndexSettingsDescription = {
  */
 export type ReplicaSettingsDescription = {
   RegionName: string;
-  ReplicaStatus?: import("./table").ReplicaStatus;
+  ReplicaStatus?: ReplicaStatus;
   ReplicaBillingModeSummary?: ReplicaBillingModeSummary;
   ReplicaProvisionedReadCapacityUnits?: number;
-  ReplicaProvisionedReadCapacityAutoScalingSettings?: import("./auto-scaling").AutoScalingSettingsDescription;
+  ReplicaProvisionedReadCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
   ReplicaProvisionedWriteCapacityUnits?: number;
-  ReplicaProvisionedWriteCapacityAutoScalingSettings?: import("./auto-scaling").AutoScalingSettingsDescription;
+  ReplicaProvisionedWriteCapacityAutoScalingSettings?: AutoScalingSettingsDescription;
   ReplicaGlobalSecondaryIndexSettings?: ReplicaGlobalSecondaryIndexSettingsDescription[];
-  ReplicaTableClassSummary?: import("./table").TableClassSummary;
+  ReplicaTableClassSummary?: TableClassSummary;
 };
 
 /**
