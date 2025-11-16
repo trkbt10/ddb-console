@@ -16,23 +16,16 @@ export type DynamoDBClientConfig = {
 /**
  * Resolve endpoint and host
  */
-function resolveEndpointAndHost(
+export function resolveEndpointAndHost(
   region: string,
   customEndpoint?: string,
-): { endpoint: string; host: string } {
+): URL {
   if (customEndpoint) {
-    const url = new URL(customEndpoint);
-    return {
-      endpoint: customEndpoint,
-      host: url.host,
-    };
+    return new URL(customEndpoint);
   }
 
   const host = `dynamodb.${region}.amazonaws.com`;
-  return {
-    endpoint: `https://${host}/`,
-    host,
-  };
+  return new URL(`https://${host}/`);
 }
 
 /**
@@ -44,7 +37,7 @@ export function createDynamoDBConfig(
   customEndpoint?: string,
 ): DynamoDBClientConfig {
   const service = "dynamodb";
-  const { endpoint, host } = resolveEndpointAndHost(region, customEndpoint);
+  const url = resolveEndpointAndHost(region, customEndpoint);
 
   const signerConfig: SignerConfig = {
     region,
@@ -54,8 +47,8 @@ export function createDynamoDBConfig(
 
   return {
     region,
-    endpoint,
-    host,
+    endpoint: url.href,
+    host: url.host,
     signerConfig,
   };
 }

@@ -4,6 +4,7 @@
 
 import type { SignedRequest } from "../crypto/signer";
 import type { CommandDefinition, CommandInput, CommandOutput } from "./commands/types";
+import { parseDynamoDBError } from "./errors";
 
 // Import command definitions
 import listTablesCommand from "./commands/list-tables";
@@ -234,9 +235,11 @@ async function executeCommand(
 
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(
-      `DynamoDB error: ${res.status} ${res.statusText} - ${text}`,
-    );
+    throw parseDynamoDBError({
+      status: res.status,
+      statusText: res.statusText,
+      body: text,
+    });
   }
 
   const json = await res.json();
