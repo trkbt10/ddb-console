@@ -12,10 +12,6 @@ import {
 } from "./client";
 import { resolveEndpointAndHost } from "./config";
 
-// =====================
-// Client creation options
-// =====================
-
 /**
  * Client creation options
  */
@@ -25,10 +21,6 @@ export type CreateClientOptions = {
   endpoint?: string;
   dependencies?: Partial<ClientDependencies>;
 };
-
-// =====================
-// Client creation
-// =====================
 
 /**
  * Create DynamoDB client
