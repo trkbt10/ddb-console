@@ -19,7 +19,16 @@ import rulesNoMocks from "./eslint/rules/rules-no-mocks.js";
 export default [
   // Ignore patterns
   {
-    ignores: ["node_modules/**", "dist/**", "build/**", "debug/**", "*.config.ts", ".code_styles/**", "benchmark/**"],
+    ignores: [
+      "eslint/**",
+      "node_modules/**",
+      "dist/**",
+      "build/**",
+      "debug/**",
+      "*.config.ts",
+      ".code_styles/**",
+      "benchmark/**",
+    ],
   },
 
   // JS/TS recommended sets (Flat-compatible)
@@ -94,18 +103,6 @@ export default [
           suite: "readonly",
           bench: "readonly",
         },
-      },
-    },
-
-    // Internal ESLint plugin/rules: don't enforce custom rules on their own source
-    {
-      files: ["eslint/**"],
-      rules: {
-        "custom/ternary-length": "off",
-        "custom/no-and-as-ternary": "off",
-        "custom/no-as-outside-guard": "off",
-        "custom/no-nested-try": "off",
-        "custom/no-iife-in-anonymous": "off",
       },
     },
   ),
